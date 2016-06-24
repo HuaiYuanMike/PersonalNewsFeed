@@ -1,7 +1,9 @@
-package com.example.mikehhsu.personalnewsfeed;
+package com.example.mikehhsu.personalnewsfeed.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.mikehhsu.personalnewsfeed.R;
 
 public class MainActivity extends AppCompatActivity {
 
