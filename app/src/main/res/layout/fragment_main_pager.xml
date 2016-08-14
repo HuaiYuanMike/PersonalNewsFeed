@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,21 +8,36 @@
     <android.support.v4.view.ViewPager
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/main_pager">
+        android:id="@+id/main_pager"/>
 
-    </android.support.v4.view.ViewPager>
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_btm_news_list"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal"
-        android:id="@+id/main_bottom_nav_bar">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="Content: TBA"/>
-    </LinearLayout>
+        android:layout_height="?attr/actionBarSize"
+        android:layout_alignParentBottom="true"
+        android:elevation="4dp"
+        android:background="?attr/colorPrimary"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
+        <Button
+            android:id="@+id/btn_unread_list"
+            android:text="@string/btn_unread_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_all_list"
+            android:text="@string/btn_all_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_saved_list"
+            android:text="@string/btn_saved_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <Button
+            android:id="@+id/btn_recom_list"
+            android:text="@string/btn_recommend_list"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
 
-</LinearLayout>
+    </android.support.v7.widget.Toolbar>
+</RelativeLayout>

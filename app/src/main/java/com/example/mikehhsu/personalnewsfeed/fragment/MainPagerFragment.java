@@ -23,7 +23,7 @@ public class MainPagerFragment extends BaseFragment{
     public MainPagerFragment(){
         super();
     }
-
+//todo: enum for each news list type - UNREAD, ALL, SAVED, and Recommend
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

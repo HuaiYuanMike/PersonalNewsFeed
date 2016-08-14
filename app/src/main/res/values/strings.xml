@@ -2,4 +2,8 @@
     <string name="app_name">PersonalNewsFeed</string>
     <!-- UI-->
     <string name="btn_sign_in">Sign in</string>
+    <string name="btn_unread_list">UnRead</string>
+    <string name="btn_all_list">ALL</string>
+    <string name="btn_saved_list">Saved</string>
+    <string name="btn_recommend_list">Recom</string>
 </resources>

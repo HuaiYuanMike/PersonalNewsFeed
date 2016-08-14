@@ -1,17 +1,15 @@
 package com.example.mikehhsu.personalnewsfeed.activity;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 
 import com.example.mikehhsu.personalnewsfeed.R;
 
 /**
  * Created by mikehhsu on 6/25/16.
  */
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +19,10 @@ public abstract class BaseActivity extends FragmentActivity {
         fragmentTransaction.add(R.id.fragment_container, getFragmentForActivity(), null); // no tag for now
         fragmentTransaction.addToBackStack(null); // null for now
         fragmentTransaction.commit();
+
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_action);
+        setSupportActionBar(myToolbar);
+
     }
 
     @Override
