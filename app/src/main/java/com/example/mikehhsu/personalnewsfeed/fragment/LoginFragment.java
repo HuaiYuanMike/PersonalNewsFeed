@@ -15,11 +15,10 @@ import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
  * Created by mikehhsu on 7/3/16.
  */
 public class LoginFragment extends BaseFragment{
-    public static LoginFragment newInstance() {
 
-        Bundle args = new Bundle();
-
+    public static LoginFragment getInstance() {
         LoginFragment fragment = new LoginFragment();
+        Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }

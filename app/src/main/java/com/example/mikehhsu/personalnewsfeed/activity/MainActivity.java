@@ -13,4 +13,18 @@ public class MainActivity extends BaseActivity {
     android.support.v4.app.Fragment getFragmentForActivity() {
         return new MainPagerFragment();
     }
+
+    public enum NewsListType {
+        UNREAD("Unread"),
+        ALL("All"),
+        SAVED("Saved"),
+        RECOMMEND("Recom.");
+        String title = "";
+        NewsListType(String title){
+            this.title = title;
+        }
+        public String getTitle(){
+            return this.title;
+        }
+    }
 }
