@@ -3,11 +3,17 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include layout="@layout/default_page_place_holder_text"/>
     <TextView
         android:id="@+id/title_temp"
         android:layout_gravity="center"
         android:text="Fragment_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        />
+
 </LinearLayout>
