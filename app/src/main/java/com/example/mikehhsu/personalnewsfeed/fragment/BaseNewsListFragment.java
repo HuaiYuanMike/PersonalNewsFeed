@@ -3,8 +3,10 @@ package com.example.mikehhsu.personalnewsfeed.fragment;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -17,6 +19,7 @@ import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 public class BaseNewsListFragment extends BaseFragment {
     private MainActivity.NewsListType newsListType = null;
     private static final String KEY_LIST_TYPE = "KEY_LIST_TYPE";
+    private RecyclerView recyclerView = null;
 
     @Override
     int getFragmentLayout() {
@@ -45,6 +48,14 @@ public class BaseNewsListFragment extends BaseFragment {
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        recyclerView = (RecyclerView)getView().findViewById(R.id.list_news_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        recyclerView.setAdapter(new NewsListRecyclerAdapter());
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
         ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
@@ -53,7 +64,7 @@ public class BaseNewsListFragment extends BaseFragment {
     private class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>{
 
         public class ViewHolder extends RecyclerView.ViewHolder{
-
+            //defines the viewholder
             public ViewHolder(View itemView) {
                 super(itemView);
             }
@@ -61,8 +72,11 @@ public class BaseNewsListFragment extends BaseFragment {
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            //create new viewholder
-            return null;
+            //inflate and create new viewholder
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_news_card_view,parent,false);
+            //todo: set view's size, margin, padding
+            ViewHolder viewHolder = new ViewHolder(view);
+            return viewHolder;
         }
 
         @Override
@@ -72,7 +86,8 @@ public class BaseNewsListFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return 0;
+            //todo: placeholder
+            return 10;
         }
     }
 }

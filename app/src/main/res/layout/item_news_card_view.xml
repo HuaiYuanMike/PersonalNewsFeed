@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/item_news_card_view_height"
+    card_view:cardCornerRadius="4dp"
+    card_view:cardElevation="4sp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/item_news_card_header_img"
+            android:background="@drawable/natural_img_lake"
+            android:layout_width="match_parent"
+            android:layout_height="128dp" />
+        <TextView
+            android:id="@+id/item_news_card_headline_txt"
+            android:text="Headline is here : lalalalala"
+            android:layout_marginTop="@dimen/padding_btn_border"
+            android:textColor="@color/news_card_headline"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:id="@+id/item_news_card_brief_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/padding_btn_border"
+            android:text="@string/item_news_card_brief_plc_holder_txt"
+            android:textColor="@color/news_card_content"
+            android:gravity="center_horizontal"/>
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
+
+</LinearLayout>
