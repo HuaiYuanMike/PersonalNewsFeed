@@ -1,6 +1,7 @@
 package com.example.mikehhsu.personalnewsfeed.db;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -16,14 +17,19 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
     public static final String INTEGER_TYPE = " INTEGER";
     public static final String COMMA_SEP = ",";
 
-    private static SQLiteDatabase db = null;
+    private static NewsFeedDBHelper instance;
 
-    //Todo: Constructor - should be singleton?
-    public NewsFeedDBHelper(Context context){
+    public NewsFeedDBHelper getInstance(Context context){
+        if(instance == null){
+            return new NewsFeedDBHelper(context);
+        }
+        return instance;
+    }
+
+    private NewsFeedDBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
-    //end of todo
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Article.SQL_CREATE_ENTRIES);
@@ -39,18 +45,43 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
 
     //CRUD
     //// TODO: 9/23/16 more CRUD methods
-    public long insert(DBDataModelIntf dbObj){
-        if(db == null || db.isReadOnly()){
-            db = this.getWritableDBInBackground();
+    public long insertOrUpdate(DBDataModelIntf dbTableObj){
+        return this.getWritableDatabase().
+                insertWithOnConflict(dbTableObj.getTableName(), null ,
+                        dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    public Cursor queryAll(DBDataModelIntf dbTableObj){
+        return this.getReadableDatabase().rawQuery(dbTableObj.getQueryAllCommand(), null);
+    }
+
+    public Cursor query(String rawQueryStr, String[] selectionArgs){
+        return this.getReadableDatabase().rawQuery(rawQueryStr, selectionArgs);
+    }
+
+    public void close(){
+        SQLiteDatabase db = this.getReadableDatabase();
+        if(db != null && db.isOpen()){
+            db.close();
         }
-
-        return db.insert(dbObj.getTableName(), null , dbObj.getInsertContentValues());
     }
 
-    //// TODO: 9/23/16 should be in a different thread
-    public SQLiteDatabase getWritableDBInBackground(){
-        return this.getWritableDatabase();
-    }
-    //getReadableDBInBackground()
+    //// TODO: 9/25/16 should be in a different thread (How to do this)
+//    public SQLiteDatabase getWritableDBInBackground(){
+//        if(db == null || db.isReadOnly()){
+//            if(db != null && db.isOpen()) {
+//                this.close();
+//            }
+//            return this.getWritableDatabase();
+//        }
+//        return db;
+//    }
+//    //getReadableDBInBackground()
+//    public SQLiteDatabase getReadableDBInBackground(){
+//        if(db == null){
+//            return this.getReadableDatabase();
+//        }
+//        return db;
+//    }
 
 }

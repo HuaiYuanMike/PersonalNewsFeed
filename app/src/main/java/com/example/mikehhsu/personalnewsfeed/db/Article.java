@@ -58,6 +58,12 @@ public final class Article implements DBDataModelIntf{
         contentValues.put(Contract.COLUMN_NAME_TOPIC, this.topic);
         return contentValues;
     }
+
+    @Override
+    public String getQueryAllCommand() {
+        return "SELECT * FROM " + this.getTableName();
+    }
+
     //endregion
 
 }
