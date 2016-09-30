@@ -19,7 +19,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
 
     private static NewsFeedDBHelper instance;
 
-    public NewsFeedDBHelper getInstance(Context context){
+    public static NewsFeedDBHelper getInstance(Context context){
         if(instance == null){
             return new NewsFeedDBHelper(context);
         }
