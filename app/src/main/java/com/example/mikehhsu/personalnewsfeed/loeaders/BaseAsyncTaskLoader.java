@@ -29,6 +29,7 @@ public abstract class BaseAsyncTaskLoader<D> extends AsyncTaskLoader<D> {
             if(data != null) {
                 releaseResource(data);
             }
+            return;
         }
 
         D oldData = mData;
@@ -69,6 +70,7 @@ public abstract class BaseAsyncTaskLoader<D> extends AsyncTaskLoader<D> {
 
     @Override
     protected void onStopLoading() {
+
         cancelLoad();
         //we leave the observer as is.
         //because the loader in a stop state is still monitoring the data
