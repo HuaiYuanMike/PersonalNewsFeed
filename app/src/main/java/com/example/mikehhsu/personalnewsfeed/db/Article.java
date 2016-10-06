@@ -1,6 +1,7 @@
 package com.example.mikehhsu.personalnewsfeed.db;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.provider.BaseColumns;
 
 /**
@@ -8,21 +9,43 @@ import android.provider.BaseColumns;
  */
 public final class Article implements DBDataModelIntf{
 
-    private String title = "";
-    private String desc = "";
-    private String author = "";
-    private String topic = "";
-    private String status = "";
-    private String time_stamp = "";
+    private String author = "";     // 1
+    private String desc = "";       // 2
+    private String status = "";     // 3
+    private long time_stamp = 0;   // 4
+    private String title = "";      // 5
+    private String topic = "";      // 6
 
     public static final class Contract implements BaseColumns{
         public static final String TABLE_NAME = "article";
-        public static final String COLUMN_NAME_TITLE = "title";
-        public static final String COLUMN_NAME_DESC = "desc";
-        public static final String COLUMN_NAME_AUTHOR = "author";
-        public static final String COLUMN_NAME_TOPIC = "topic";
-        public static final String COLUMN_NAME_STATUS = "status";
-        public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";
+        public static final String COLUMN_NAME_AUTHOR = "author";           // 1
+        public static final String COLUMN_NAME_DESC = "desc";               // 2
+        public static final String COLUMN_NAME_STATUS = "status";           // 3
+        public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";   // 4
+        public static final String COLUMN_NAME_TITLE = "title";             // 5
+        public static final String COLUMN_NAME_TOPIC = "topic";             // 6
+    }
+
+    //default
+    public Article(String author, String desc, String status, long time_stamp, String title, String topic)
+    {
+        this.author = author;
+        this.desc = desc;
+        this.status = status;
+        this.time_stamp = time_stamp;
+        this.title = title;
+        this.topic = topic;
+    }
+
+    //cursor
+    public Article(Cursor cursor)
+    {
+        this.author = cursor.getString(1);
+        this.desc = cursor.getString(2);
+        this.status = cursor.getString(3);
+        this.time_stamp = cursor.getLong(4);
+        this.title = cursor.getString(5);
+        this.topic = cursor.getString(6);
     }
 
     //region SQL Command
@@ -32,7 +55,7 @@ public final class Article implements DBDataModelIntf{
                     Contract.COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_DESC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                    Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + " )";
 
@@ -66,4 +89,8 @@ public final class Article implements DBDataModelIntf{
 
     //endregion
 
+
+    public long getTime_stamp() {
+        return time_stamp;
+    }
 }

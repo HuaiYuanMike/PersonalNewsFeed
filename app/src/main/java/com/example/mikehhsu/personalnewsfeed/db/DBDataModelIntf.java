@@ -7,12 +7,12 @@ import android.content.ContentValues;
  */
 public interface DBDataModelIntf {
 
-    public String getTableName();
-    public ContentValues getInsertContentValues();
+    String getTableName();
+    ContentValues getInsertContentValues();
 
 
     //rerion SQL query
-    public String getQueryAllCommand();
+    String getQueryAllCommand();
     //endregion
 
     //// TODO: 9/23/16 more methonds to define our DBDataModelIntf interface behavior
