@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
+import com.example.mikehhsu.personalnewsfeed.db.Article;
+
+import java.util.ArrayList;
+
 /**
  * Created by mikehhsu on 8/2/16.
  */
@@ -20,6 +24,8 @@ public class BaseNewsListFragment extends BaseFragment {
     private MainActivity.NewsListType newsListType = null;
     private static final String KEY_LIST_TYPE = "KEY_LIST_TYPE";
     private RecyclerView recyclerView = null;
+
+    private static ArrayList<Article> rawNewsArticles = null;
 
     @Override
     int getFragmentLayout() {
@@ -53,6 +59,7 @@ public class BaseNewsListFragment extends BaseFragment {
         recyclerView = (RecyclerView)getView().findViewById(R.id.list_news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(new NewsListRecyclerAdapter());
+
     }
 
     @Override
@@ -61,6 +68,9 @@ public class BaseNewsListFragment extends BaseFragment {
         ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
     }
 
+
+    //region NewsListRecyclerAdapter
+    //define the adapter for the recycler view
     private class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>{
 
         public class ViewHolder extends RecyclerView.ViewHolder{
@@ -89,5 +99,15 @@ public class BaseNewsListFragment extends BaseFragment {
             //todo: placeholder
             return 10;
         }
+    }
+    //endregion
+
+
+    public static ArrayList<Article> getRawNewsArticles() {
+        return rawNewsArticles;
+    }
+
+    public static void setRawNewsArticles(ArrayList<Article> rawNewsArticles) {
+        BaseNewsListFragment.rawNewsArticles = rawNewsArticles;
     }
 }
