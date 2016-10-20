@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnected()) {
             // TODO: 10/10/16 url to be added
-            new ArticlesFetchCommand().execute("urls TBA");
+            new ArticlesFetchCommand().execute("http://www.newsisfree.com/HPE/xml/feeds/23/4623.xml");
         }else {
             //display error
         }

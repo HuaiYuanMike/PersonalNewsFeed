@@ -27,6 +27,11 @@ public final class Article implements DBDataModelIntf{
     }
 
     //default
+    public Article(){
+
+    }
+
+    //regular
     public Article(String author, String desc, String status, long time_stamp, String title, String topic)
     {
         this.author = author;

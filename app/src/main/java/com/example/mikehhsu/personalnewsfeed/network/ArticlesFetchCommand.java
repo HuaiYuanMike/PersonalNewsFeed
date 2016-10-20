@@ -3,6 +3,8 @@ package com.example.mikehhsu.personalnewsfeed.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.mikehhsu.personalnewsfeed.parser.ForbesNewsParser;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -31,13 +33,16 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
 
             inputStream = urlConnection.getInputStream();
             // TODO: 10/10/16 correct Action to parse the fetched data need to be implemented
-            // convert inputSream type data into String
             if(inputStream != null){
-                Reader reader = null;
-                reader = new InputStreamReader(inputStream, "UTF-8");
-                char[] buffer = new char[500];
-                reader.read(buffer);
-                Log.d(ArticlesFetchCommand.class.toString(), "Input Stream: " + new String(buffer));
+                // parse the XML file from inputStream
+                new ForbesNewsParser().parse(inputStream);
+                //
+                // convert inputSream type data into String
+//                Reader reader = null;
+//                reader = new InputStreamReader(inputStream, "UTF-8");
+//                char[] buffer = new char[500];
+//                reader.read(buffer);
+//                Log.d(ArticlesFetchCommand.class.toString(), "Input Stream: " + new String(buffer));
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -52,6 +57,7 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+        //UI thread
         super.onPostExecute(aVoid);
     }
 }
