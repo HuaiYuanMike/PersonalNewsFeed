@@ -3,11 +3,9 @@ package com.example.mikehhsu.personalnewsfeed.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.mikehhsu.personalnewsfeed.parser.ForbesNewsParser;
+import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -35,7 +33,7 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
             // TODO: 10/10/16 correct Action to parse the fetched data need to be implemented
             if(inputStream != null){
                 // parse the XML file from inputStream
-                new ForbesNewsParser().parse(inputStream);
+                new NYTNewsListParser().parse(inputStream);
                 //
                 // convert inputSream type data into String
 //                Reader reader = null;

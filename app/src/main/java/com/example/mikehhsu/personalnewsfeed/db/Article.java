@@ -98,4 +98,32 @@ public final class Article implements DBDataModelIntf{
     public long getTime_stamp() {
         return time_stamp;
     }
+
+
+    //region getters and setters
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setTime_stamp(long time_stamp) {
+        this.time_stamp = time_stamp;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+    //endregion
 }
