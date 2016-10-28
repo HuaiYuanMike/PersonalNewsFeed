@@ -23,35 +23,35 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface
             xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
             xmlPullParser.setInput(in, null);
             xmlPullParser.nextTag();//move to next start tag / end tag
-
-            //readfeed
-            Log.d("mikelog", "start_tag" + XmlPullParser.START_TAG);
-            Log.d("mikelog", "end_tag" + XmlPullParser.END_TAG);
             xmlPullParser.require(XmlPullParser.START_TAG, null, "rss");
-            //skip tags that we don't need and parse when we encounter "item"
-            while(xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT) {
-                if(xmlPullParser.getEventType() == XmlPullParser.START_TAG){
-                    if(xmlPullParser.getName().equals("item")){
-                        parseItem(xmlPullParser);//// TODO: 10/25/16 store parsed item/article
-                    }else{
-                        skip(xmlPullParser);
-                    }
-                }
-            }
-//// TODO: 10/20/16 need to setup root link and info for the page
-            while(xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT){
-                if(xmlPullParser.getEventType() != XmlPullParser.START_TAG)
-                {
-                    xmlPullParser.next();
-                    Log.d("mikelog", "next~~~");
-                }else
-                {
-                    Log.d("mikeLog", " Name: "+ xmlPullParser.getName()
-                            + "; text: " + xmlPullParser.nextText()
-                            + "; current Type: " + xmlPullParser.getEventType());
-                }
 
+            //locate the first item tag
+            Article article = new Article();
+            if(findTag(xmlPullParser, "item")){
+                parseItem(xmlPullParser, article);//// TODO: 10/25/16 store parsed item/article
+                Log.d("mikelog", "article title: " + article.getTitle());
+                Log.d("mikelog", "article description: " + article.getDesc());
+
+            }else
+            {
+                Log.d("mikelog", "something went wrong! no parsing was excuted");
             }
+
+
+//// TODO: 10/20/16 need to setup root link and info for the page
+//            while(xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT){
+//                if(xmlPullParser.getEventType() != XmlPullParser.START_TAG)
+//                {
+//                    xmlPullParser.next();
+//                    Log.d("mikelog", "next~~~");
+//                }else
+//                {
+//                    Log.d("mikeLog", " Name: "+ xmlPullParser.getName()
+//                            + "; text: " + xmlPullParser.nextText()
+//                            + "; current Type: " + xmlPullParser.getEventType());
+//                }
+//
+//            }
 
 
         }catch (XmlPullParserException xl){
@@ -64,54 +64,45 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface
         return null;
     }
 
-    private Article parseItem(XmlPullParser xmlPullParser) throws IOException, XmlPullParserException{
+    private void parseItem(XmlPullParser xmlPullParser, Article article) throws IOException, XmlPullParserException{
         xmlPullParser.require(XmlPullParser.START_TAG, null, "item");
-        Article article = new Article();
-        while(xmlPullParser.next() != XmlPullParser.END_TAG){
-            if(xmlPullParser.getEventType() != XmlPullParser.START_TAG){
-                continue;
+        parseItemIterate(xmlPullParser, article);
+    }
+
+    private void parseItemIterate(XmlPullParser xmlPullParser, Article article) throws IOException, XmlPullParserException {
+        while(xmlPullParser.next() != XmlPullParser.START_TAG) {
+            if(xmlPullParser.getEventType() == XmlPullParser.END_TAG && xmlPullParser.getName().equals("item")){
+                return;
             }
-            String name = xmlPullParser.getName();
-            if(name.equals("title")){
-                article.setTitle(parseTitle(xmlPullParser));
-            }else if(name.equals("guid")){
-                //// TODO: 10/20/16 add link to article class
-            }else if(name.equals("description")){
-                article.setDesc(parseTextField(xmlPullParser, "description"));
-            }else if(name.equals("dc:creator")){
-                article.setAuthor(parseTextField(xmlPullParser, "dc:creator"));
-            }else if(name.equals("pubDate")){
-                //// TODO: 10/20/16 parse time
-            }
+            continue;
         }
-//        //parse "title"
-//        xmlPullParser.nextTag();
-//        xmlPullParser.require(XmlPullParser.START_TAG, null, "title");
-//        String title =  xmlPullParser.nextText();
-//        //parse "link"
-//        xmlPullParser.nextTag();
-//        xmlPullParser.require(XmlPullParser.START_TAG, null, "link");
-//        String link = xmlPullParser.nextText();
-//        //parse "description"
-//        xmlPullParser.nextTag();
-//        xmlPullParser.require(XmlPullParser.START_TAG, null, "description");
-//        String desc = xmlPullParser.nextText();
-
-//        Article article = new Article("", desc, "", 0l, title, "");
-
-        //we want it to move to next tag
-        xmlPullParser.next();
-        return article;
+        String name = xmlPullParser.getName();
+        if(name.equals("title")){
+            article.setTitle(parseTitle(xmlPullParser));
+        }else if(name.equals("guid")){
+            //// TODO: 10/20/16 add link to article class
+            xmlPullParser.nextText();
+        }else if(name.equals("description")){
+            article.setDesc(parseTextField(xmlPullParser, "description"));
+        }else if(name.equals("dc:creator")){
+            article.setAuthor(parseTextField(xmlPullParser, "dc:creator"));
+        }else if(name.equals("pubDate")){
+            //// TODO: 10/20/16 parse time
+            xmlPullParser.nextText();
+        }else{
+            skip(xmlPullParser);
+        }
+        parseItemIterate(xmlPullParser, article);
     }
 
     private String parseTitle(XmlPullParser xmlPullParser) throws IOException, XmlPullParserException{
         xmlPullParser.require(XmlPullParser.START_TAG, null, "title");
-        return readText(xmlPullParser);
+        return xmlPullParser.nextText();
     }
 
     private String parseTextField(XmlPullParser xmlPullParser, String name) throws IOException, XmlPullParserException{
         xmlPullParser.require(XmlPullParser.START_TAG, null, name);
-        return readText(xmlPullParser);
+        return xmlPullParser.nextText();
     }
 
     private String readText(XmlPullParser xmlPullParser) throws IOException, XmlPullParserException{
@@ -142,7 +133,22 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface
                     break;
             }
         }
-        //we want it to move to next tag
-        xmlPullParser.next();
+    }
+
+    private boolean findTag(XmlPullParser xmlPullParser , String tagName) throws XmlPullParserException, IOException{
+        if(xmlPullParser.getEventType() != XmlPullParser.START_TAG){
+            throw new IllegalStateException("FindTag invocated when the parser not at START_TAG");
+        }
+        if(!xmlPullParser.getName().equals(tagName)){
+            while (xmlPullParser.next() != XmlPullParser.START_TAG){
+                if(xmlPullParser.getEventType() == XmlPullParser.END_DOCUMENT){
+                    return false;
+                }
+            }
+            return findTag(xmlPullParser, tagName);
+        }else{
+            return true;
+        }
+
     }
 }

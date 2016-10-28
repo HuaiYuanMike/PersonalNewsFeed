@@ -125,5 +125,26 @@ public final class Article implements DBDataModelIntf{
     public void setTopic(String topic) {
         this.topic = topic;
     }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
     //endregion
 }
