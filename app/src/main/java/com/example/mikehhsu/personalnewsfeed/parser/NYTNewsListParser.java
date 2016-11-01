@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface for each parser
 //    private XmlPullParser parser;
     public ArrayList<Article> parse(InputStream in) {
+        ArrayList<Article> articles = new ArrayList<>();
         try{
             XmlPullParser xmlPullParser = Xml.newPullParser();
             xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -26,11 +27,18 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface
             xmlPullParser.require(XmlPullParser.START_TAG, null, "rss");
 
             //locate the first item tag
-            Article article = new Article();
             if(findTag(xmlPullParser, "item")){
-                parseItem(xmlPullParser, article);//// TODO: 10/25/16 store parsed item/article
-                Log.d("mikelog", "article title: " + article.getTitle());
-                Log.d("mikelog", "article description: " + article.getDesc());
+                while(xmlPullParser.getEventType() == XmlPullParser.START_TAG &&
+                        new String("item").equals(xmlPullParser.getName())) {
+                    Article article = new Article();
+                    parseItem(xmlPullParser, article);//// TODO: 10/25/16 store parsed item/article
+                    articles.add(article);
+                    xmlPullParser.nextTag();
+                    Log.d("mikelog", "article title: " + article.getTitle());
+                    Log.d("mikelog", "article description: " + article.getDesc());
+//                    Log.d("mikelog", "parser event type: " + xmlPullParser.getEventType());
+//                    Log.d("mikelog", "parser name: " + xmlPullParser.getName());
+                }
 
             }else
             {
