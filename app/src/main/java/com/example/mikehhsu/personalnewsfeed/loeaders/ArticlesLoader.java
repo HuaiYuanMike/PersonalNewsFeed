@@ -15,6 +15,8 @@ import java.util.ArrayList;
  */
 public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
 
+    public final static int ARTICLES_LOADER_ID = 1234 ;
+
     public ArticlesLoader(Context context){
         super(context);
     }

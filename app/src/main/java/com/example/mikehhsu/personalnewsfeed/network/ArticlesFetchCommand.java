@@ -3,11 +3,13 @@ package com.example.mikehhsu.personalnewsfeed.network;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.mikehhsu.personalnewsfeed.db.Article;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 
 /**
  * Created by mikehhsu on 10/10/16.
@@ -15,26 +17,24 @@ import java.net.URL;
 // TODO: 10/10/16 The Result Generic Type should be modified based on the correct behavior
 public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
     InputStream inputStream = null;
+    ArrayList<Article> articles = null;
     @Override
     protected Void doInBackground(String... urls) {
-        //URl object
         try {
             URL url = new URL(urls[0]);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(10000);//throws SocketTimeoutException
-            urlConnection.setRequestMethod("GET");//optionally
+            urlConnection.setReadTimeout(9000);
+            urlConnection.setConnectTimeout(9000);//might throw SocketTimeoutException
+            urlConnection.setRequestMethod("GET");//optional - GET is the default action
             urlConnection.setDoInput(true);
-
             urlConnection.connect();
             Log.d(ArticlesFetchCommand.class.toString(), "Response Code: " + urlConnection.getResponseCode());
-
             inputStream = urlConnection.getInputStream();
-            // TODO: 10/10/16 correct Action to parse the fetched data need to be implemented
+
             if(inputStream != null){
-                // parse the XML file from inputStream
-                new NYTNewsListParser().parse(inputStream);
-                //
+
+                articles = new NYTNewsListParser().parse(inputStream);
+                // TODO: 11/1/16 Update the local DB
                 // convert inputSream type data into String
 //                Reader reader = null;
 //                reader = new InputStreamReader(inputStream, "UTF-8");
@@ -56,6 +56,10 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         //UI thread
+
+        if(articles != null && articles.size() > 0) {
+            // TODO: 11/1/16 populate the UI thread
+        }
         super.onPostExecute(aVoid);
     }
 }

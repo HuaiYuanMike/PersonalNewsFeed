@@ -10,7 +10,7 @@ import com.example.mikehhsu.personalnewsfeed.broadcastReceiver.LoaderBroadcastRe
 /**
  * Created by mikehhsu on 9/29/16.
  */
-public abstract class BaseAsyncTaskLoader<D> extends AsyncTaskLoader<D> {
+public abstract class BaseAsyncTaskLoader<D> extends android.support.v4.content.AsyncTaskLoader<D> {
 
     //hold reference to the underlined data
     private D mData = null;
@@ -56,8 +56,8 @@ public abstract class BaseAsyncTaskLoader<D> extends AsyncTaskLoader<D> {
         //instantiate the observer
         if(observer == null){
             observer = new LoaderBroadcastReceiver(this);
-                    LocalBroadcastManager
-                    .getInstance(getContext()).registerReceiver(observer, new IntentFilter(getBroadcastString()));
+            LocalBroadcastManager.getInstance(getContext())
+                    .registerReceiver(observer, new IntentFilter(getBroadcastString()));
         }
 
         //force the loader to load in certain conditions
@@ -88,9 +88,9 @@ public abstract class BaseAsyncTaskLoader<D> extends AsyncTaskLoader<D> {
             mData = null;
         }
 
+        //unregister the observer
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(observer);
         observer = null;
-        //unregister the observer
     }
 
     //attempt to cancel the current async load

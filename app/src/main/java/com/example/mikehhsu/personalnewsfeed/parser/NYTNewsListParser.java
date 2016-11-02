@@ -15,7 +15,7 @@ import java.util.ArrayList;
 /**
  * Created by mikehhsu on 10/13/16.
  */
-public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface for each parser
+public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract class for each parser
 //    private XmlPullParser parser;
     public ArrayList<Article> parse(InputStream in) {
         ArrayList<Article> articles = new ArrayList<>();
@@ -31,7 +31,7 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface
                 while(xmlPullParser.getEventType() == XmlPullParser.START_TAG &&
                         new String("item").equals(xmlPullParser.getName())) {
                     Article article = new Article();
-                    parseItem(xmlPullParser, article);//// TODO: 10/25/16 store parsed item/article
+                    parseItem(xmlPullParser, new Article());
                     articles.add(article);
                     xmlPullParser.nextTag();
                     Log.d("mikelog", "article title: " + article.getTitle());
@@ -42,24 +42,8 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a interface
 
             }else
             {
-                Log.d("mikelog", "something went wrong! no parsing was excuted");
+                Log.d(this.getClass().toString(), "something went wrong! Can't find required tag" + "item" + "to parse");
             }
-
-
-//// TODO: 10/20/16 need to setup root link and info for the page
-//            while(xmlPullParser.getEventType() != XmlPullParser.END_DOCUMENT){
-//                if(xmlPullParser.getEventType() != XmlPullParser.START_TAG)
-//                {
-//                    xmlPullParser.next();
-//                    Log.d("mikelog", "next~~~");
-//                }else
-//                {
-//                    Log.d("mikeLog", " Name: "+ xmlPullParser.getName()
-//                            + "; text: " + xmlPullParser.nextText()
-//                            + "; current Type: " + xmlPullParser.getEventType());
-//                }
-//
-//            }
 
 
         }catch (XmlPullParserException xl){
