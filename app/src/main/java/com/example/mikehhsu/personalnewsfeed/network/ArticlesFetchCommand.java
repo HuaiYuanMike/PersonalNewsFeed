@@ -1,9 +1,12 @@
 package com.example.mikehhsu.personalnewsfeed.network;
 
+import android.app.Application;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.example.mikehhsu.personalnewsfeed.MyApplication;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
 import java.io.InputStream;
@@ -35,6 +38,7 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
 
                 articles = new NYTNewsListParser().parse(inputStream);
                 // TODO: 11/1/16 Update the local DB
+                NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext());
                 // convert inputSream type data into String
 //                Reader reader = null;
 //                reader = new InputStreamReader(inputStream, "UTF-8");

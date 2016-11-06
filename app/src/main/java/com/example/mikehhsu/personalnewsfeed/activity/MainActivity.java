@@ -29,8 +29,8 @@ public class MainActivity extends BaseActivity {
         // TODO: 9/29/16 insert of entries should be put where we got data from the server
         //region test
         NewsFeedDBHelper dbHelper = NewsFeedDBHelper.getInstance(this);
-        dbHelper.insertOrUpdate(new Article("", "", "", System.currentTimeMillis(), "", ""));
-        dbHelper.insertOrUpdate(new Article("", "", "", System.currentTimeMillis() + 2, "", ""));
+//        dbHelper.insertOrUpdate(new Article("", "", "", System.currentTimeMillis(), "", ""));
+//        dbHelper.insertOrUpdate(new Article("", "", "", System.currentTimeMillis() + 2, "", ""));
         dbHelper.close();
 
         //endregion
@@ -40,7 +40,7 @@ public class MainActivity extends BaseActivity {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnected()) {
-            // TODO: 10/10/16 url to be added
+            // TODO: 10/10/16 url should be added to the loader separately
             new ArticlesFetchCommand().execute("http://rss.nytimes.com/services/xml/rss/nyt/Americas.xml");
         }else {
             //display error

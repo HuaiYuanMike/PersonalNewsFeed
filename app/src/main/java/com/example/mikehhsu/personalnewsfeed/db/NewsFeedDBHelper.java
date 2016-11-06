@@ -10,7 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 public class NewsFeedDBHelper extends SQLiteOpenHelper {
     //once change the db schema, must increment the DB_VERSION
-    public static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "NewsFeed.db";
 
     public static final String TEXT_TYPE = " TEXT";
