@@ -9,6 +9,7 @@ import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
+import android.util.Log;
 
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
@@ -25,27 +26,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //test create local db with a test article data entry
-        // TODO: 9/29/16 insert of entries should be put where we got data from the server
-        //region test
-        NewsFeedDBHelper dbHelper = NewsFeedDBHelper.getInstance(this);
-//        dbHelper.insertOrUpdate(new Article("", "", "", System.currentTimeMillis(), "", ""));
-//        dbHelper.insertOrUpdate(new Article("", "", "", System.currentTimeMillis() + 2, "", ""));
-        dbHelper.close();
-
-        //endregion
-
-        // Fire the network call to download the articles from the feed(s)
-        // check the network availability
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        if(networkInfo != null && networkInfo.isConnected()) {
-            // TODO: 10/10/16 url should be added to the loader separately
-            new ArticlesFetchCommand().execute("http://rss.nytimes.com/services/xml/rss/nyt/Americas.xml");
-        }else {
-            //display error
-        }
-        // and at the same time load the Articles from Local DB
 
 
     }

@@ -1,12 +1,16 @@
 package com.example.mikehhsu.personalnewsfeed.network;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.mikehhsu.personalnewsfeed.MyApplication;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.db.DBDataModelIntf;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
+import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
 import java.io.InputStream;
@@ -18,13 +22,16 @@ import java.util.ArrayList;
  * Created by mikehhsu on 10/10/16.
  */
 // TODO: 10/10/16 The Result Generic Type should be modified based on the correct behavior
-public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
+public class ArticlesFetchCommand extends AsyncTask<Void, Void, Void> {
     InputStream inputStream = null;
-    ArrayList<Article> articles = null;
+    ArrayList<DBDataModelIntf> articles = null;
+
+    private final String urlNYT = "http://rss.nytimes.com/services/xml/rss/nyt/Americas.xml";
+
     @Override
-    protected Void doInBackground(String... urls) {
+    protected Void doInBackground(Void... urls) {
         try {
-            URL url = new URL(urls[0]);
+            URL url = new URL(urlNYT);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setReadTimeout(9000);
             urlConnection.setConnectTimeout(9000);//might throw SocketTimeoutException
@@ -35,10 +42,9 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
             inputStream = urlConnection.getInputStream();
 
             if(inputStream != null){
-
                 articles = new NYTNewsListParser().parse(inputStream);
-                // TODO: 11/1/16 Update the local DB
-                NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext());
+                NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext())
+                .insertOrUpdateAll(articles);
                 // convert inputSream type data into String
 //                Reader reader = null;
 //                reader = new InputStreamReader(inputStream, "UTF-8");
@@ -62,7 +68,7 @@ public class ArticlesFetchCommand extends AsyncTask<String, Void, Void> {
         //UI thread
 
         if(articles != null && articles.size() > 0) {
-            // TODO: 11/1/16 populate the UI thread
+            LocalBroadcastManager.getInstance(MyApplication.getInstance().getApplicationContext()).sendBroadcast(new Intent(ArticlesLoader.getBroadcastString()));
         }
         super.onPostExecute(aVoid);
     }

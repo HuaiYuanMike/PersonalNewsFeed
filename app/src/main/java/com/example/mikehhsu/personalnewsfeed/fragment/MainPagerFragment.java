@@ -1,10 +1,14 @@
 package com.example.mikehhsu.personalnewsfeed.fragment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +16,9 @@ import android.widget.Button;
 
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
+import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
+import com.example.mikehhsu.personalnewsfeed.network.ArticlesFetchCommand;
 
 import java.util.ArrayList;
 
@@ -106,6 +113,34 @@ public class MainPagerFragment extends BaseFragment{
             }
         });
         //endregion
+
+        // Fire the network call to download the articles from the feed(s)
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if(networkInfo != null && networkInfo.isConnected()) {
+            new ArticlesFetchCommand().execute();
+        }else {
+            Log.e(this.getClass().toString(), "Network connection not available!");
+        }
+
+        // and at the same time load the Articles from Local DB
+        getLoaderManager().initLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
+                    @Override
+                    public Loader<ArrayList<Article>> onCreateLoader(int id, Bundle args) {
+                        return new ArticlesLoader(getContext());
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
+//                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<ArrayList<Article>> loader) {
+
+                    }
+                });
 
     }
 

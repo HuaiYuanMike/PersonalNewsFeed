@@ -27,8 +27,11 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
         data = null;
     }
 
-    @Override
-    String getBroadcastString() {
+    public static String getBroadcastString() {
+        return "articles_loader_receiver";
+    }
+
+    public String getReiverActionString() {
         return "articles_loader_receiver";
     }
 

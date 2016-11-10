@@ -57,7 +57,7 @@ public abstract class BaseAsyncTaskLoader<D> extends android.support.v4.content.
         if(observer == null){
             observer = new LoaderBroadcastReceiver(this);
             LocalBroadcastManager.getInstance(getContext())
-                    .registerReceiver(observer, new IntentFilter(getBroadcastString()));
+                    .registerReceiver(observer, new IntentFilter(getReiverActionString()));
         }
 
         //force the loader to load in certain conditions
@@ -114,6 +114,6 @@ public abstract class BaseAsyncTaskLoader<D> extends android.support.v4.content.
     abstract public void releaseResource(D data);
 
 
-    abstract String getBroadcastString();
+    abstract String getReiverActionString();
 
 }

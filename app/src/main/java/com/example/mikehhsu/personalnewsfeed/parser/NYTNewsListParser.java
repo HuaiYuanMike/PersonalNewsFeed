@@ -4,6 +4,7 @@ import android.util.Log;
 import android.util.Xml;
 
 import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.db.DBDataModelIntf;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -17,8 +18,8 @@ import java.util.ArrayList;
  */
 public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract class for each parser
 //    private XmlPullParser parser;
-    public ArrayList<Article> parse(InputStream in) {
-        ArrayList<Article> articles = new ArrayList<>();
+    public ArrayList<DBDataModelIntf> parse(InputStream in) {
+        ArrayList<DBDataModelIntf> articles = new ArrayList<>();
         try{
             XmlPullParser xmlPullParser = Xml.newPullParser();
             xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
@@ -31,7 +32,7 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract 
                 while(xmlPullParser.getEventType() == XmlPullParser.START_TAG &&
                         new String("item").equals(xmlPullParser.getName())) {
                     Article article = new Article();
-                    parseItem(xmlPullParser, new Article());
+                    parseItem(xmlPullParser, article);
                     articles.add(article);
                     xmlPullParser.nextTag();
                     Log.d("mikelog", "article title: " + article.getTitle());
@@ -53,7 +54,7 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract 
         }finally{
 
         }
-        return null;
+        return articles;
     }
 
     private void parseItem(XmlPullParser xmlPullParser, Article article) throws IOException, XmlPullParserException{

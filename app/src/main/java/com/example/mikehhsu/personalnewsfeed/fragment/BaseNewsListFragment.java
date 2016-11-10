@@ -1,6 +1,9 @@
 package com.example.mikehhsu.personalnewsfeed.fragment;
 
 import android.app.LoaderManager;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -17,6 +20,7 @@ import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
+import com.example.mikehhsu.personalnewsfeed.network.ArticlesFetchCommand;
 
 import java.util.ArrayList;
 
@@ -64,25 +68,6 @@ public class BaseNewsListFragment extends BaseFragment {
         recyclerView = (RecyclerView)getView().findViewById(R.id.list_news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
-
-        // TODO: 11/1/16 load articles from local DB
-        getLoaderManager().initLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
-                new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
-                    @Override
-                    public Loader<ArrayList<Article>> onCreateLoader(int id, Bundle args) {
-                        return new ArticlesLoader(getContext());
-                    }
-
-                    @Override
-                    public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
-                        adapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onLoaderReset(Loader<ArrayList<Article>> loader) {
-
-                    }
-                });
 
     }
 
