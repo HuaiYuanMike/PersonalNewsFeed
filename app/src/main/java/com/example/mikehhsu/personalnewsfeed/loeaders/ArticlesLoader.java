@@ -43,7 +43,8 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
         while(!cursor.isAfterLast())
         {
             articles.add(new Article(cursor));
-            Log.d("mikelog", "article " + (articles.size() - 1) + ", time stamp - " + articles.get(articles.size() - 1).getTime_stamp());
+            Log.d("mikelog", "loader article " + (articles.size() - 1) + ", time stamp - " + articles.get(articles.size() - 1).getTime_stamp()
+            + " , title - " + articles.get(articles.size() - 1).getTitle());
             cursor.moveToNext();
         }
         return articles;
