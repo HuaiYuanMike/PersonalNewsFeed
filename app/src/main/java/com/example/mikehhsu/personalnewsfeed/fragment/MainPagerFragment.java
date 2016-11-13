@@ -33,15 +33,22 @@ public class MainPagerFragment extends BaseFragment{
     ViewPager viewPager;
     NewsListPagerAdapter newsListPagerAdapter;
 
+    //Fragments for each pages
+    BaseNewsListFragment allNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.ALL);
+    BaseNewsListFragment unreadNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.UNREAD);
+    BaseNewsListFragment savedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.SAVED);
+    BaseNewsListFragment recommendedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.RECOMMEND);
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState == null)
         {
             newsListPagerAdapter = new NewsListPagerAdapter(((FragmentActivity)getActivity()).getSupportFragmentManager());
-            for(MainActivity.NewsListType listType : MainActivity.NewsListType.values()){
-                newsListFragments.add(BaseNewsListFragment.getInstance(listType));
-            }
+            newsListFragments.add(allNewsFragment);
+            newsListFragments.add(unreadNewsFragment);
+            newsListFragments.add(savedNewsFragment);
+            newsListFragments.add(recommendedNewsFragment);
         }
 
     }
@@ -133,7 +140,7 @@ public class MainPagerFragment extends BaseFragment{
 
                     @Override
                     public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
-//                        adapter.notifyDataSetChanged();
+                        allNewsFragment.getAdapter().notifyDataSetChanged();
                     }
 
                     @Override

@@ -1,6 +1,7 @@
 package com.example.mikehhsu.personalnewsfeed;
 
 import android.app.Application;
+import android.content.Context;
 import android.util.Log;
 
 /**
@@ -14,6 +15,7 @@ public class MyApplication extends Application {
             Log.e("APPLICATION", "APPLICATION instance null!");
         }
         return instance;
+
     }
 
     @Override

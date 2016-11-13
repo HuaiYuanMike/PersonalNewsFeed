@@ -1,16 +1,9 @@
 package com.example.mikehhsu.personalnewsfeed.fragment;
 
-import android.app.LoaderManager;
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,8 +12,6 @@ import android.widget.TextView;
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
-import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
-import com.example.mikehhsu.personalnewsfeed.network.ArticlesFetchCommand;
 
 import java.util.ArrayList;
 
@@ -33,7 +24,7 @@ public class BaseNewsListFragment extends BaseFragment {
     private RecyclerView recyclerView = null;
     private NewsListRecyclerAdapter adapter = null;
 
-    private static ArrayList<Article> rawNewsArticles = null;
+    private static ArrayList<Article> rawNewsArticles = new ArrayList<>();
 
     @Override
     int getFragmentLayout() {
@@ -100,13 +91,12 @@ public class BaseNewsListFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-        //update data of each item to the viewholder
+            //update data of each item to the viewholder
         }
 
         @Override
         public int getItemCount() {
-            //todo: placeholder
-            return 10;
+            return rawNewsArticles.size();
         }
     }
     //endregion
@@ -118,5 +108,9 @@ public class BaseNewsListFragment extends BaseFragment {
 
     public static void setRawNewsArticles(ArrayList<Article> rawNewsArticles) {
         BaseNewsListFragment.rawNewsArticles = rawNewsArticles;
+    }
+
+    public NewsListRecyclerAdapter getAdapter() {
+        return adapter;
     }
 }
