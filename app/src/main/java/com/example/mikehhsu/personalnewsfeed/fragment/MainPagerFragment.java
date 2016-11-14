@@ -140,6 +140,7 @@ public class MainPagerFragment extends BaseFragment{
 
                     @Override
                     public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
+                        BaseNewsListFragment.setRawNewsArticles(data);
                         allNewsFragment.getAdapter().notifyDataSetChanged();
                     }
 

@@ -71,19 +71,21 @@ public class BaseNewsListFragment extends BaseFragment {
 
     //region NewsListRecyclerAdapter
     //define the adapter for the recycler view
-    private class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>{
+    public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>{
 
         public class ViewHolder extends RecyclerView.ViewHolder{
             //defines the viewholder
+            TextView titleView;
             public ViewHolder(View itemView) {
                 super(itemView);
+                titleView = (TextView) itemView.findViewById(R.id.item_news_title);
             }
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             //inflate and create new viewholder
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_news_card_view,parent,false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_news_card,parent,false);
             //todo: set view's size, margin, padding
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
@@ -92,6 +94,7 @@ public class BaseNewsListFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             //update data of each item to the viewholder
+            holder.titleView.setText(rawNewsArticles.get(position).getTitle());
         }
 
         @Override

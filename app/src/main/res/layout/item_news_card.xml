@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="128dp" />
         <TextView
-            android:id="@+id/item_news_card_headline_txt"
+            android:id="@+id/item_news_title"
             android:text="Headline is here : lalalalala"
             android:layout_marginTop="@dimen/padding_btn_border"
             android:textColor="@color/news_card_headline"
