@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.mikehhsu.personalnewsfeed.R;
@@ -76,9 +77,13 @@ public class BaseNewsListFragment extends BaseFragment {
         public class ViewHolder extends RecyclerView.ViewHolder{
             //defines the viewholder
             TextView titleView;
+            ImageView headerImage;
+            TextView descView;
             public ViewHolder(View itemView) {
                 super(itemView);
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
+                headerImage = (ImageView) itemView.findViewById(R.id.item_news_header_img);
+                descView = (TextView) itemView.findViewById(R.id.item_news_desc);
             }
         }
 
@@ -86,7 +91,9 @@ public class BaseNewsListFragment extends BaseFragment {
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             //inflate and create new viewholder
             View view = LayoutInflater.from(getContext()).inflate(R.layout.item_news_card,parent,false);
-            //todo: set view's size, margin, padding
+            //set up margin, padding ...etc here
+            int margin = (int)getResources().getDimension(R.dimen.padding_btn_border);
+            ((RecyclerView.LayoutParams)view.getLayoutParams()).setMargins(margin, margin, margin, margin);
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
         }
@@ -95,6 +102,8 @@ public class BaseNewsListFragment extends BaseFragment {
         public void onBindViewHolder(ViewHolder holder, int position) {
             //update data of each item to the viewholder
             holder.titleView.setText(rawNewsArticles.get(position).getTitle());
+            holder.descView.setText(rawNewsArticles.get(position).getDesc());
+            // TODO: 11/14/16 dealing with image
         }
 
         @Override
