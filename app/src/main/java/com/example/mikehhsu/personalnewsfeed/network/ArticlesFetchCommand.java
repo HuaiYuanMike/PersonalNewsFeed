@@ -58,6 +58,7 @@ public class ArticlesFetchCommand extends AsyncTask<Void, Void, Void> {
             if (inputStream != null){
                 inputStream = null;
             }
+            NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext()).close();
         }
 
         return null;

@@ -71,12 +71,12 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
         return this.getReadableDatabase().rawQuery(rawQueryStr, selectionArgs);
     }
 
-    public void close(){
-        SQLiteDatabase db = this.getReadableDatabase();
-        if(db != null && db.isOpen()){
-            db.close();
-        }
-    }
+//    public void close(){
+//        SQLiteDatabase db = this.getReadableDatabase();
+//        if(db != null && db.isOpen()){
+//            db.close();
+//        }
+//    }
 
     //// TODO: 9/25/16 should be in a different thread (How to do this)
 //    public SQLiteDatabase getWritableDBInBackground(){

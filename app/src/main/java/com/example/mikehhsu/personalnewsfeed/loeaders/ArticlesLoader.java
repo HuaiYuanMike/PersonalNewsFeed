@@ -48,6 +48,7 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
             cursor.moveToNext();
         }
         cursor.close();
+        NewsFeedDBHelper.getInstance(getContext()).close();
         return articles;
     }
 }
