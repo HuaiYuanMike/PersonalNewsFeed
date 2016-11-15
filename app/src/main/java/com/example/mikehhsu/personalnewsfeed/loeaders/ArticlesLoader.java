@@ -47,6 +47,7 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
             + " , title - " + articles.get(articles.size() - 1).getTitle());
             cursor.moveToNext();
         }
+        cursor.close();
         return articles;
     }
 }

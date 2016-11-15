@@ -60,6 +60,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
             db.insertWithOnConflict(dbTableObj.getTableName(), null ,
                     dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
         }
+        db.close();
     }
 
     public Cursor queryAll(DBDataModelIntf dbTableObj){
