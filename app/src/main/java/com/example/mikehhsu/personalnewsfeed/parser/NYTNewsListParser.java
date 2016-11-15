@@ -35,10 +35,6 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract 
                     parseItem(xmlPullParser, article);
                     articles.add(article);
                     xmlPullParser.nextTag();
-                    Log.d("mikelog", "article title: " + article.getTitle());
-                    Log.d("mikelog", "article description: " + article.getDesc());
-//                    Log.d("mikelog", "parser event type: " + xmlPullParser.getEventType());
-//                    Log.d("mikelog", "parser name: " + xmlPullParser.getName());
                 }
 
             }else
@@ -73,8 +69,7 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract 
         if(name.equals("title")){
             article.setTitle(parseTitle(xmlPullParser));
         }else if(name.equals("guid")){
-            //// TODO: 10/20/16 add link to article class
-            xmlPullParser.nextText();
+            article.setGuid(parseTextField(xmlPullParser, "guid"));
         }else if(name.equals("description")){
             article.setDesc(parseTextField(xmlPullParser, "description"));
         }else if(name.equals("dc:creator")){
@@ -95,7 +90,8 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract 
 
     private String parseTextField(XmlPullParser xmlPullParser, String name) throws IOException, XmlPullParserException{
         xmlPullParser.require(XmlPullParser.START_TAG, null, name);
-        return xmlPullParser.nextText();
+        String text = xmlPullParser.nextText();
+        return text;
     }
 
     private String readText(XmlPullParser xmlPullParser) throws IOException, XmlPullParserException{

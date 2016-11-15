@@ -1,5 +1,6 @@
 package com.example.mikehhsu.personalnewsfeed.db;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.provider.BaseColumns;
@@ -9,21 +10,23 @@ import android.provider.BaseColumns;
  */
 public final class Article implements DBDataModelIntf{
 
-    private String author = "";     // 1
-    private String desc = "";       // 2
-    private String status = "";     // 3
-    private long time_stamp = 0;   // 4
-    private String title = "";      // 5
-    private String topic = "";      // 6
+    private String guid = "";       //1
+    private String author = "";     //2
+    private String desc = "";       //3
+    private String status = "";     //4
+    private long time_stamp = 0;    //5
+    private String title = "";      //6
+    private String topic = "";      //7
 
     public static final class Contract implements BaseColumns{
         public static final String TABLE_NAME = "article";
-        public static final String COLUMN_NAME_AUTHOR = "author";           // 1
-        public static final String COLUMN_NAME_DESC = "desc";               // 2
-        public static final String COLUMN_NAME_STATUS = "status";           // 3
-        public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";   // 4
-        public static final String COLUMN_NAME_TITLE = "title";             // 5
-        public static final String COLUMN_NAME_TOPIC = "topic";             // 6
+        public static final String COLUMN_NAME_GUID = "guid";               // 1
+        public static final String COLUMN_NAME_AUTHOR = "author";           // 2
+        public static final String COLUMN_NAME_DESC = "desc";               // 3
+        public static final String COLUMN_NAME_STATUS = "status";           // 4
+        public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";   // 5
+        public static final String COLUMN_NAME_TITLE = "title";             // 6
+        public static final String COLUMN_NAME_TOPIC = "topic";             // 7
     }
 
     //default
@@ -32,8 +35,9 @@ public final class Article implements DBDataModelIntf{
     }
 
     //regular
-    public Article(String author, String desc, String status, long time_stamp, String title, String topic)
+    public Article(String guid, String author, String desc, String status, long time_stamp, String title, String topic)
     {
+        this.guid = guid;
         this.author = author;
         this.desc = desc;
         this.status = status;
@@ -45,18 +49,20 @@ public final class Article implements DBDataModelIntf{
     //cursor
     public Article(Cursor cursor)
     {
-        this.author = cursor.getString(1);
-        this.desc = cursor.getString(2);
-        this.status = cursor.getString(3);
-        this.time_stamp = cursor.getLong(4);
-        this.title = cursor.getString(5);
-        this.topic = cursor.getString(6);
+        this.guid = cursor.getString(1);
+        this.author = cursor.getString(2);
+        this.desc = cursor.getString(3);
+        this.status = cursor.getString(4);
+        this.time_stamp = cursor.getLong(5);
+        this.title = cursor.getString(6);
+        this.topic = cursor.getString(7);
     }
 
     //region SQL Command
     public static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + Contract.TABLE_NAME + " (" +
-                    Contract._ID + " INTEGER PRIMARY KEY," +
+                    Contract._ID + " INTEGER," +
+                    Contract.COLUMN_NAME_GUID + " TEXT PRIMARY KEY," +
                     Contract.COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_DESC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
@@ -78,6 +84,7 @@ public final class Article implements DBDataModelIntf{
     @Override
     public ContentValues getInsertContentValues() {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(Contract.COLUMN_NAME_GUID, this.guid);
         contentValues.put(Contract.COLUMN_NAME_AUTHOR, this.author);
         contentValues.put(Contract.COLUMN_NAME_DESC, this.desc);
         contentValues.put(Contract.COLUMN_NAME_STATUS, this.status);
@@ -126,6 +133,10 @@ public final class Article implements DBDataModelIntf{
         this.topic = topic;
     }
 
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -144,6 +155,10 @@ public final class Article implements DBDataModelIntf{
 
     public String getTopic() {
         return topic;
+    }
+
+    public String getGuid() {
+        return guid;
     }
 
     //endregion
