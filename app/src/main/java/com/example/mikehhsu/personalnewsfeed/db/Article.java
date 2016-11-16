@@ -17,6 +17,7 @@ public final class Article implements DBDataModelIntf{
     private long time_stamp = 0;    //5
     private String title = "";      //6
     private String topic = "";      //7
+    private String img = "";        //8
 
     public static final class Contract implements BaseColumns{
         public static final String TABLE_NAME = "article";
@@ -27,6 +28,7 @@ public final class Article implements DBDataModelIntf{
         public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";   // 5
         public static final String COLUMN_NAME_TITLE = "title";             // 6
         public static final String COLUMN_NAME_TOPIC = "topic";             // 7
+        public static final String COLUMN_NAME_IMAGE = "img";               // 8
     }
 
     //default
@@ -35,7 +37,7 @@ public final class Article implements DBDataModelIntf{
     }
 
     //regular
-    public Article(String guid, String author, String desc, String status, long time_stamp, String title, String topic)
+    public Article(String guid, String author, String desc, String status, long time_stamp, String title, String topic, String imgUrl)
     {
         this.guid = guid;
         this.author = author;
@@ -44,6 +46,7 @@ public final class Article implements DBDataModelIntf{
         this.time_stamp = time_stamp;
         this.title = title;
         this.topic = topic;
+        this.img = imgUrl;
     }
 
     //cursor
@@ -56,6 +59,7 @@ public final class Article implements DBDataModelIntf{
         this.time_stamp = cursor.getLong(5);
         this.title = cursor.getString(6);
         this.topic = cursor.getString(7);
+        this.img = cursor.getString(8);
     }
 
     //region SQL Command
@@ -68,7 +72,9 @@ public final class Article implements DBDataModelIntf{
                     Contract.COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
                     Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + " )";
+                    Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                    Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + " )";
+
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + Contract.TABLE_NAME;
@@ -91,6 +97,7 @@ public final class Article implements DBDataModelIntf{
         contentValues.put(Contract.COLUMN_NAME_TIME_STAMP, this.time_stamp);
         contentValues.put(Contract.COLUMN_NAME_TITLE, this.title);
         contentValues.put(Contract.COLUMN_NAME_TOPIC, this.topic);
+        contentValues.put(Contract.COLUMN_NAME_IMAGE, this.img);
         return contentValues;
     }
 
@@ -137,6 +144,10 @@ public final class Article implements DBDataModelIntf{
         this.guid = guid;
     }
 
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -159,6 +170,10 @@ public final class Article implements DBDataModelIntf{
 
     public String getGuid() {
         return guid;
+    }
+
+    public String getImg() {
+        return img;
     }
 
     //endregion

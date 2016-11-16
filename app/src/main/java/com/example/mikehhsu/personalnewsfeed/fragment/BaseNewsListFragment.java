@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.network.ImageUrlFetchCommand;
 
 import java.util.ArrayList;
 
@@ -101,9 +102,10 @@ public class BaseNewsListFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             //update data of each item to the viewholder
-            holder.titleView.setText(rawNewsArticles.get(position).getTitle());
-            holder.descView.setText(rawNewsArticles.get(position).getDesc());
-            // TODO: 11/14/16 dealing with image
+            Article article = rawNewsArticles.get(position);
+            holder.titleView.setText(article.getTitle());
+            holder.descView.setText(article.getDesc());
+            new ImageUrlFetchCommand(getContext(), holder.headerImage).execute(article.getImg());
         }
 
         @Override

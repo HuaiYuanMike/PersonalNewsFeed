@@ -74,6 +74,9 @@ public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract 
             article.setDesc(parseTextField(xmlPullParser, "description"));
         }else if(name.equals("dc:creator")){
             article.setAuthor(parseTextField(xmlPullParser, "dc:creator"));
+        }else if(name.equals("media:content")){
+            String url = xmlPullParser.getAttributeValue(null, "url");
+            article.setImg(url);
         }else if(name.equals("pubDate")){
             //// TODO: 10/20/16 parse time
             xmlPullParser.nextText();
