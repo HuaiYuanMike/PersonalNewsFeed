@@ -2,11 +2,15 @@ package com.example.mikehhsu.personalnewsfeed.network;
 
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 import com.example.mikehhsu.personalnewsfeed.MyApplication;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
+
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 /**
  * Created by mikehhsu on 11/18/16.
@@ -16,10 +20,22 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
 
     @Override
     protected Void doInBackground(String... urls) {
-        super.doInBackground();// make connection through Http Get
         try {
-            if(httpURLConnection == null){
-                return null;
+            this.url = urls[0];
+            URL url = new URL(this.url);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setReadTimeout(READ_TIMEOUT);
+            httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);//might throw SocketTimeoutException
+            httpURLConnection.setRequestMethod(REQUEST_METHOD);//optional - GET is the default action
+            httpURLConnection.setDoInput(true);
+            httpURLConnection.connect();
+            Log.d(HttpGetCommand.class.toString(), "Response Code: " + httpURLConnection.getResponseCode() + httpURLConnection.getResponseMessage() + httpURLConnection.getHeaderField("Location"));
+            //for the 303 See Other response
+            if(httpURLConnection.getResponseCode() == 303 && httpURLConnection.getHeaderField("Location") != null){
+                url = new URL(httpURLConnection.getHeaderField("Location"));
+                httpURLConnection.disconnect();
+                httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.connect();
             }
             inputStream = httpURLConnection.getInputStream();
             if(inputStream != null){
