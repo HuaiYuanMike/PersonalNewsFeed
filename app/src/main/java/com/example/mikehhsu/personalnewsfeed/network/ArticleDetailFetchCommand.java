@@ -29,7 +29,7 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
             httpURLConnection.setRequestMethod(REQUEST_METHOD);//optional - GET is the default action
             httpURLConnection.setDoInput(true);
             httpURLConnection.connect();
-            Log.d(HttpGetCommand.class.toString(), "Response Code: " + httpURLConnection.getResponseCode() + httpURLConnection.getResponseMessage() + httpURLConnection.getHeaderField("Location"));
+            Log.d(ArticleDetailFetchCommand.class.toString(), "Response Code: " + httpURLConnection.getResponseCode() + httpURLConnection.getResponseMessage() + httpURLConnection.getHeaderField("Location"));
             //for the 303 See Other response
             if(httpURLConnection.getResponseCode() == 303 && httpURLConnection.getHeaderField("Location") != null){
                 url = new URL(httpURLConnection.getHeaderField("Location"));
@@ -60,7 +60,7 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
             if (inputStream != null){
                 inputStream = null;
             }
-            NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext()).close();
+//            NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext()).close();
         }
 
         return null;

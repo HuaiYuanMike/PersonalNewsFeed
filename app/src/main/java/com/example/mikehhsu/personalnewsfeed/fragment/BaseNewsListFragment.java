@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.network.ArticleDetailFetchCommand;
 import com.example.mikehhsu.personalnewsfeed.network.ImageUrlFetchCommand;
 
 import java.util.ArrayList;
@@ -73,18 +75,28 @@ public class BaseNewsListFragment extends BaseFragment {
 
     //region NewsListRecyclerAdapter
     //define the adapter for the recycler view
-    public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder>{
+    public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder> {
 
-        public class ViewHolder extends RecyclerView.ViewHolder{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             //defines the viewholder
             TextView titleView;
             ImageView headerImage;
             TextView descView;
+            String detailUrl = "";
             public ViewHolder(View itemView) {
                 super(itemView);
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
                 headerImage = (ImageView) itemView.findViewById(R.id.item_news_header_img);
                 descView = (TextView) itemView.findViewById(R.id.item_news_desc);
+                itemView.setOnClickListener(this);
+            }
+
+            @Override
+            public void onClick(View v) {
+                Log.d("mikelog", "clicked");
+                if(detailUrl.length() > 0) {
+                    new ArticleDetailFetchCommand().execute(this.detailUrl);
+                }
             }
         }
 
