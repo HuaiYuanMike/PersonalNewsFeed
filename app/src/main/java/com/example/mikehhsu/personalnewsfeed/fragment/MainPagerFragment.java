@@ -125,7 +125,7 @@ public class MainPagerFragment extends BaseFragment{
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
         if(networkInfo != null && networkInfo.isConnected()) {
-            new ArticlesFetchCommand().execute();
+            new ArticlesFetchCommand().execute("http://rss.nytimes.com/services/xml/rss/nyt/Americas.xml");
         }else {
             Log.e(this.getClass().toString(), "Network connection not available!");
         }

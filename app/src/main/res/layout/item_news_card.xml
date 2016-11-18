@@ -17,6 +17,7 @@
         <ImageView
             android:id="@+id/item_news_header_img"
             android:background="@drawable/natural_img_lake"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="128dp" />
         <TextView
