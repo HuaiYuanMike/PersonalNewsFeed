@@ -34,23 +34,44 @@ public class MainPagerFragment extends BaseFragment{
     NewsListPagerAdapter newsListPagerAdapter;
 
     //Fragments for each pages
-    BaseNewsListFragment allNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.ALL);
-    BaseNewsListFragment unreadNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.UNREAD);
-    BaseNewsListFragment savedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.SAVED);
-    BaseNewsListFragment recommendedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.RECOMMEND);
+    BaseNewsListFragment allNewsFragment;
+    BaseNewsListFragment unreadNewsFragment;
+    BaseNewsListFragment savedNewsFragment;
+    BaseNewsListFragment recommendedNewsFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(savedInstanceState == null)
-        {
-            newsListPagerAdapter = new NewsListPagerAdapter(((FragmentActivity)getActivity()).getSupportFragmentManager());
-            newsListFragments.add(allNewsFragment);
-            newsListFragments.add(unreadNewsFragment);
-            newsListFragments.add(savedNewsFragment);
-            newsListFragments.add(recommendedNewsFragment);
-        }
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        if(savedInstanceState == null) {
+            allNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.ALL);
+            unreadNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.UNREAD);
+            savedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.SAVED);
+            recommendedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.RECOMMEND);
 
+        }else{
+            allNewsFragment = (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, MainActivity.NewsListType.ALL.name());
+            unreadNewsFragment = (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, MainActivity.NewsListType.UNREAD.name());
+            savedNewsFragment = (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, MainActivity.NewsListType.SAVED.name());
+            recommendedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.RECOMMEND);
+            Log.d("mikelog2", "fragmentmanager fragment count: " + getActivity().getSupportFragmentManager().getFragments().size());
+//            Log.d("mikelog", "adapter fragment count: " + newsListPagerAdapter.getCount());
+        }
+        newsListPagerAdapter = new NewsListPagerAdapter(fragmentManager);
+        newsListFragments.add(allNewsFragment);
+        newsListFragments.add(unreadNewsFragment);
+        newsListFragments.add(savedNewsFragment);
+        newsListFragments.add(recommendedNewsFragment);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        fragmentManager.putFragment(outState, MainActivity.NewsListType.ALL.name(), allNewsFragment);
+        fragmentManager.putFragment(outState, MainActivity.NewsListType.UNREAD.name(), unreadNewsFragment);
+        fragmentManager.putFragment(outState, MainActivity.NewsListType.SAVED.name(), savedNewsFragment);
+//        fragmentManager.putFragment(outState, MainActivity.NewsListType.RECOMMEND.name(), recommendedNewsFragment);
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -152,6 +173,12 @@ public class MainPagerFragment extends BaseFragment{
                     }
                 });
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d("mikelog", "some dummy codes!");
     }
 
     @Override

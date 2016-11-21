@@ -25,8 +25,8 @@ import java.util.ArrayList;
 public class BaseNewsListFragment extends BaseFragment {
     private MainActivity.NewsListType newsListType = null;
     private static final String KEY_LIST_TYPE = "KEY_LIST_TYPE";
-    private RecyclerView recyclerView = null;
-    private NewsListRecyclerAdapter adapter = null;
+    private RecyclerView recyclerView;
+    private NewsListRecyclerAdapter adapter;
 
     private static ArrayList<Article> rawNewsArticles = new ArrayList<>();
 
@@ -60,7 +60,7 @@ public class BaseNewsListFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         adapter = new NewsListRecyclerAdapter();
-        recyclerView = (RecyclerView)getView().findViewById(R.id.list_news_recycler_view);
+        recyclerView = (RecyclerView) getView().findViewById(R.id.list_news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
 

@@ -15,11 +15,12 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayout());
-        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, getFragmentForActivity(), null); // no tag for now
-        fragmentTransaction.addToBackStack(null); // null for now
-        fragmentTransaction.commit();
-
+        if(savedInstanceState == null) {
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container, getFragmentForActivity(), null); // no tag for now
+            fragmentTransaction.addToBackStack(null); // null for now
+            fragmentTransaction.commit();
+        }
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_action);
         setSupportActionBar(myToolbar);
 
