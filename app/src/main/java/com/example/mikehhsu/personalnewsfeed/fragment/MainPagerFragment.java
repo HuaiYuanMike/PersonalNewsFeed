@@ -201,6 +201,8 @@ public class MainPagerFragment extends BaseFragment{
         @Override
         public int getCount() {
             return newsListFragments.size();
+//            it is normal for the an getCount get called multiple times. So should not implement codes that takes too much time here
+//            http://stackoverflow.com/questions/13562828/why-does-getcount-in-adapter-is-being-called-so-many-times?rq=1
         }
     }
 
