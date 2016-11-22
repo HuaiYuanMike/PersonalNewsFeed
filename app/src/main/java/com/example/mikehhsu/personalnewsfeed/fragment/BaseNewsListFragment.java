@@ -27,6 +27,7 @@ public class BaseNewsListFragment extends BaseFragment {
     private static final String KEY_LIST_TYPE = "KEY_LIST_TYPE";
     private RecyclerView recyclerView;
     private NewsListRecyclerAdapter adapter;
+    private String viewPagerTag = "";
 
     private static ArrayList<Article> rawNewsArticles = new ArrayList<>();
 
@@ -47,7 +48,7 @@ public class BaseNewsListFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        String name = getArguments().getString(KEY_LIST_TYPE, MainActivity.NewsListType.ALL.name());
         newsListType = MainActivity.NewsListType.valueOf(getArguments().getString(KEY_LIST_TYPE, MainActivity.NewsListType.ALL.name()));
 
         // display temp. title
@@ -138,5 +139,9 @@ public class BaseNewsListFragment extends BaseFragment {
 
     public NewsListRecyclerAdapter getAdapter() {
         return adapter;
+    }
+
+    public MainActivity.NewsListType getNewsListType() {
+        return newsListType;
     }
 }

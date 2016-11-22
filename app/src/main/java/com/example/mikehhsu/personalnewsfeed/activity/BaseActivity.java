@@ -17,7 +17,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayout());
         if(savedInstanceState == null) {
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, getFragmentForActivity(), null); // no tag for now
+            fragmentTransaction.add(R.id.fragment_container, getFragmentForActivity(), null); // no tag for now
             fragmentTransaction.addToBackStack(null); // null for now
             fragmentTransaction.commit();
         }

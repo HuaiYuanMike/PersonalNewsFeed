@@ -12,6 +12,7 @@ import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.mikehhsu.personalnewsfeed.R;
@@ -33,44 +34,34 @@ public class MainPagerFragment extends BaseFragment{
     ViewPager viewPager;
     NewsListPagerAdapter newsListPagerAdapter;
 
-    //Fragments for each pages
-    BaseNewsListFragment allNewsFragment;
-    BaseNewsListFragment unreadNewsFragment;
-    BaseNewsListFragment savedNewsFragment;
-    BaseNewsListFragment recommendedNewsFragment;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         if(savedInstanceState == null) {
-            allNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.ALL);
-            unreadNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.UNREAD);
-            savedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.SAVED);
-            recommendedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.RECOMMEND);
-
+            for(MainActivity.NewsListType type : MainActivity.NewsListType.values()){
+                newsListFragments.add(BaseNewsListFragment.getInstance(type));
+            }
         }else{
-            allNewsFragment = (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, MainActivity.NewsListType.ALL.name());
-            unreadNewsFragment = (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, MainActivity.NewsListType.UNREAD.name());
-            savedNewsFragment = (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, MainActivity.NewsListType.SAVED.name());
-            recommendedNewsFragment = BaseNewsListFragment.getInstance(MainActivity.NewsListType.RECOMMEND);
+            for(MainActivity.NewsListType type : MainActivity.NewsListType.values()){
+                newsListFragments.add(fragmentManager.getFragment(savedInstanceState, type.name()) == null ?
+                BaseNewsListFragment.getInstance(type) : (BaseNewsListFragment) fragmentManager.getFragment(savedInstanceState, type.name()));
+            }
             Log.d("mikelog2", "fragmentmanager fragment count: " + getActivity().getSupportFragmentManager().getFragments().size());
-//            Log.d("mikelog", "adapter fragment count: " + newsListPagerAdapter.getCount());
         }
         newsListPagerAdapter = new NewsListPagerAdapter(fragmentManager);
-        newsListFragments.add(allNewsFragment);
-        newsListFragments.add(unreadNewsFragment);
-        newsListFragments.add(savedNewsFragment);
-        newsListFragments.add(recommendedNewsFragment);
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.putFragment(outState, MainActivity.NewsListType.ALL.name(), allNewsFragment);
-        fragmentManager.putFragment(outState, MainActivity.NewsListType.UNREAD.name(), unreadNewsFragment);
-        fragmentManager.putFragment(outState, MainActivity.NewsListType.SAVED.name(), savedNewsFragment);
-//        fragmentManager.putFragment(outState, MainActivity.NewsListType.RECOMMEND.name(), recommendedNewsFragment);
+        for(BaseNewsListFragment fragment : newsListFragments ){
+            if(fragmentManager.findFragmentByTag(fragment.getTag()) != null) {
+                fragmentManager.putFragment(outState, fragment.getNewsListType().name(), fragment);
+            }
+        }
         super.onSaveInstanceState(outState);
     }
 
@@ -162,8 +153,8 @@ public class MainPagerFragment extends BaseFragment{
                     @Override
                     public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
                         BaseNewsListFragment.setRawNewsArticles(data);
-                        if(allNewsFragment.getAdapter() != null) {
-                            allNewsFragment.getAdapter().notifyDataSetChanged();
+                        if(newsListFragments.get(MainActivity.NewsListType.ALL.ordinal()).getAdapter() != null) {
+                            newsListFragments.get(MainActivity.NewsListType.ALL.ordinal()).getAdapter().notifyDataSetChanged();
                         }
                     }
 
