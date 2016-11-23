@@ -19,7 +19,7 @@ public final class Article implements DBDataModelIntf{
     private String topic = "";      //7
     private String img = "";        //8
 
-    public static final class Contract implements BaseColumns{
+    public class Contract implements BaseColumns{
         public static final String TABLE_NAME = "article";
         public static final String COLUMN_NAME_GUID = "guid";               // 1
         public static final String COLUMN_NAME_AUTHOR = "author";           // 2

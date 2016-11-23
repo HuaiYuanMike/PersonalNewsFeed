@@ -23,13 +23,13 @@ import java.util.ArrayList;
  * Created by mikehhsu on 8/2/16.
  */
 public class BaseNewsListFragment extends BaseFragment {
-    private MainActivity.NewsListType newsListType = null;
+
     private static final String KEY_LIST_TYPE = "KEY_LIST_TYPE";
+    private static ArrayList<Article> rawNewsArticles = new ArrayList<>();
+
+    private MainActivity.NewsListType newsListType = null;
     private RecyclerView recyclerView;
     private NewsListRecyclerAdapter adapter;
-    private String viewPagerTag = "";
-
-    private static ArrayList<Article> rawNewsArticles = new ArrayList<>();
 
     @Override
     int getFragmentLayout() {

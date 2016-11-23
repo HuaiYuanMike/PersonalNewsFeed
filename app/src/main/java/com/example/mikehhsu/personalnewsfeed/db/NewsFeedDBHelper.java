@@ -36,6 +36,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Article.SQL_CREATE_ENTRIES);
+        db.execSQL(ArticleDetail.SQL_CREATE_ENTRIES);
     }
 
     @Override
