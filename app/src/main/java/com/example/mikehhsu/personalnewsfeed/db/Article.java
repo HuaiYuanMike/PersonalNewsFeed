@@ -1,14 +1,12 @@
 package com.example.mikehhsu.personalnewsfeed.db;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.provider.BaseColumns;
 
 /**
  * Created by mikehhsu on 9/23/16.
  */
-public final class Article implements DBDataModelIntf{
+public final class Article implements SQLiteDBTable {
 
     private String guid = "";       //1
     private String author = "";     //2
@@ -19,7 +17,7 @@ public final class Article implements DBDataModelIntf{
     private String topic = "";      //7
     private String img = "";        //8
 
-    public class Contract implements BaseColumns{
+    public class Contract implements SQLiteDBTable.Contract{
         public static final String TABLE_NAME = "article";
         public static final String COLUMN_NAME_GUID = "guid";               // 1
         public static final String COLUMN_NAME_AUTHOR = "author";           // 2
@@ -29,11 +27,6 @@ public final class Article implements DBDataModelIntf{
         public static final String COLUMN_NAME_TITLE = "title";             // 6
         public static final String COLUMN_NAME_TOPIC = "topic";             // 7
         public static final String COLUMN_NAME_IMAGE = "img";               // 8
-    }
-
-    //default
-    public Article(){
-
     }
 
     //regular
@@ -81,7 +74,7 @@ public final class Article implements DBDataModelIntf{
 
     //endregion
 
-    //region DBDateModelIntf
+    //region SQLiteDBTable
     @Override
     public String getTableName() {
         return Contract.TABLE_NAME;

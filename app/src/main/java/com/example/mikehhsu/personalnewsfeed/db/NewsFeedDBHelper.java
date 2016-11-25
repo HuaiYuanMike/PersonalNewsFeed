@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.database.sqlite.SQLiteStatement;
 
 import java.util.ArrayList;
 
@@ -49,22 +48,22 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
 
     //CRUD
     //// TODO: 9/23/16 more CRUD methods
-    public long insertOrUpdate(DBDataModelIntf dbTableObj){
+    public long insertOrUpdate(SQLiteDBTable dbTableObj){
         return this.getWritableDatabase().
                 insertWithOnConflict(dbTableObj.getTableName(), null ,
                         dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    public void insertOrUpdateAll(ArrayList<DBDataModelIntf> dbTableObjList){
+    public void insertOrUpdateAll(ArrayList<SQLiteDBTable> dbTableObjList){
         SQLiteDatabase db = this.getWritableDatabase();
-        for (DBDataModelIntf dbTableObj : dbTableObjList){
+        for (SQLiteDBTable dbTableObj : dbTableObjList){
             db.insertWithOnConflict(dbTableObj.getTableName(), null ,
                     dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close();
     }
 
-    public Cursor queryAll(DBDataModelIntf dbTableObj){
+    public Cursor queryAll(SQLiteDBTable dbTableObj){
         return this.getReadableDatabase().rawQuery(dbTableObj.getQueryAllCommand(), null);
     }
 
