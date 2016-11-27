@@ -29,6 +29,11 @@ public final class Article implements SQLiteDBTable {
         public static final String COLUMN_NAME_IMAGE = "img";               // 8
     }
 
+    //default
+    public Article(){
+
+    }
+
     //regular
     public Article(String guid, String author, String desc, String status, long time_stamp, String title, String topic, String imgUrl)
     {
@@ -55,26 +60,32 @@ public final class Article implements SQLiteDBTable {
         this.img = cursor.getString(8);
     }
 
-    //region SQL Command
-    public static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + Contract.TABLE_NAME + " (" +
-                    Contract._ID + " INTEGER," +
-                    Contract.COLUMN_NAME_GUID + " TEXT PRIMARY KEY," +
-                    Contract.COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_DESC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                    Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + " )";
+    public static Article getDefaultInstance(){
+        return new Article();
+    }
 
+    //region SQLiteDBTable Interface
+    //Create Table
+    @Override
+    public String getSQLiteCreateTableCommand(){
+        return "CREATE TABLE " + Contract.TABLE_NAME + " (" +
+                Contract._ID + " INTEGER," +
+                Contract.COLUMN_NAME_GUID + " TEXT PRIMARY KEY," +
+                Contract.COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_DESC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + " )";
+    }
 
-    public static final String SQL_DELETE_ENTRIES =
-            "DROP TABLE IF EXISTS " + Contract.TABLE_NAME;
+    //Drop Table
+    @Override
+    public String getSQliteDropTableCommand(){
+        return "DROP TABLE IF EXISTS " + Contract.TABLE_NAME;
+    }
 
-    //endregion
-
-    //region SQLiteDBTable
     @Override
     public String getTableName() {
         return Contract.TABLE_NAME;

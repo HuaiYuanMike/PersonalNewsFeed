@@ -34,7 +34,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Article.SQL_CREATE_ENTRIES);
+        db.execSQL(Article.getDefaultInstance().getSQLiteCreateTableCommand());
         db.execSQL(ArticleDetail.SQL_CREATE_ENTRIES);
     }
 
@@ -42,7 +42,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
-        db.execSQL(Article.SQL_DELETE_ENTRIES);
+        db.execSQL(Article.getDefaultInstance().getSQliteDropTableCommand());
         onCreate(db);
     }
 

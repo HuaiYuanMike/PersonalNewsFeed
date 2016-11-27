@@ -1,6 +1,7 @@
 package com.example.mikehhsu.personalnewsfeed.db;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.os.Parcelable;
 import android.provider.BaseColumns;
 import android.provider.SyncStateContract;
@@ -14,12 +15,14 @@ import java.io.BufferedReader;
  */
 public interface SQLiteDBTable {
 
+    interface Contract extends BaseColumns{}
+
     String getTableName();
     ContentValues getInsertContentValues();
 
-    interface Contract extends BaseColumns{}
-
-    //rerion SQL query
+    //rerion SQL commands
+    String getSQLiteCreateTableCommand();
+    String getSQliteDropTableCommand();
     String getQueryAllCommand();
     //endregion
 
