@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class NewsFeedDBHelper extends SQLiteOpenHelper {
     //once change the db schema, must increment the DB_VERSION
-    public static final int DATABASE_VERSION = 5;
+    public static final int DATABASE_VERSION = 6; // Added ArticleDetail Table
     public static final String DATABASE_NAME = "NewsFeed.db";
 
     public static final String TEXT_TYPE = " TEXT";
@@ -35,7 +35,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Article.getDefaultInstance().getSQLiteCreateTableCommand());
-        db.execSQL(ArticleDetail.SQL_CREATE_ENTRIES);
+        db.execSQL(ArticleDetail.getDefaultInstance().getSQLiteCreateTableCommand());
     }
 
     @Override
@@ -43,6 +43,7 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
         // This database is only a cache for online data, so its upgrade policy is
         // to simply to discard the data and start over
         db.execSQL(Article.getDefaultInstance().getSQliteDropTableCommand());
+        db.execSQL(ArticleDetail.getDefaultInstance().getSQliteDropTableCommand());
         onCreate(db);
     }
 

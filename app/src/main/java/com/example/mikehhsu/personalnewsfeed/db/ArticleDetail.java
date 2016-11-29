@@ -15,6 +15,7 @@ public class ArticleDetail implements SQLiteDBTable {
     private String title ="";  //3
     private String detail =""; //4
     private String link ="";   //5
+    private String img ="";   //6
 
     public class Contract implements SQLiteDBTable.Contract{
         public static final String TABLE_NAME = "article_detail";
@@ -23,6 +24,7 @@ public class ArticleDetail implements SQLiteDBTable {
         public static final String COLUMN_NAME_TITLE = "title";             // 3
         public static final String COLUMN_NAME_DETAIL = "detail";           // 4
         public static final String COLUMN_NAME_LINK = "link";               // 5
+        public static final String COLUMN_NAME_IMG = "img";                // 6
     }
 
     //default
@@ -36,6 +38,7 @@ public class ArticleDetail implements SQLiteDBTable {
         this.title = cursor.getString(3);
         this.detail = cursor.getString(4);
         this.link = cursor.getString(5);
+        this.img = cursor.getString(6);
     }
 
     public static ArticleDetail getDefaultInstance(){
@@ -55,6 +58,7 @@ public class ArticleDetail implements SQLiteDBTable {
         contentValues.put(Contract.COLUMN_NAME_TITLE, this.title);
         contentValues.put(Contract.COLUMN_NAME_DETAIL, this.detail);
         contentValues.put(Contract.COLUMN_NAME_LINK, this.link);
+        contentValues.put(Contract.COLUMN_NAME_IMG, this.img);
         return contentValues;
     }
 
@@ -66,7 +70,8 @@ public class ArticleDetail implements SQLiteDBTable {
                 Contract.COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                 Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                 Contract.COLUMN_NAME_DETAIL + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_LINK + NewsFeedDBHelper.TEXT_TYPE + " )";
+                Contract.COLUMN_NAME_LINK + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_IMG + NewsFeedDBHelper.TEXT_TYPE + " )";
     }
 
     @Override
@@ -101,6 +106,10 @@ public class ArticleDetail implements SQLiteDBTable {
         return link;
     }
 
+    public String getImg() {
+        return img;
+    }
+
     public void setGuid(String guid) {
         this.guid = guid;
     }
@@ -119,6 +128,10 @@ public class ArticleDetail implements SQLiteDBTable {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     //endredion
