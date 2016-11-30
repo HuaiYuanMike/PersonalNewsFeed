@@ -9,6 +9,10 @@ import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -22,23 +26,27 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
     protected Void doInBackground(String... urls) {
         try {
             this.url = urls[0];
-            URL url = new URL(this.url);
-            httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setReadTimeout(READ_TIMEOUT);
-            httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);//might throw SocketTimeoutException
-            httpURLConnection.setRequestMethod(REQUEST_METHOD);//optional - GET is the default action
-            httpURLConnection.setDoInput(true);
-            httpURLConnection.connect();
-            Log.d(ArticleDetailFetchCommand.class.toString(), "Response Code: " + httpURLConnection.getResponseCode() + httpURLConnection.getResponseMessage() + httpURLConnection.getHeaderField("Location"));
-            //for the 303 See Other response
-            if(httpURLConnection.getResponseCode() == 303 && httpURLConnection.getHeaderField("Location") != null){
-                url = new URL(httpURLConnection.getHeaderField("Location"));
-                httpURLConnection.disconnect();
-                httpURLConnection = (HttpURLConnection) url.openConnection();
-                httpURLConnection.connect();
-            }
-            inputStream = httpURLConnection.getInputStream();
-            if(inputStream != null){
+            Log.d(this.getClass().toString(), "Jsoup connect to remote!");
+            Document doc = Jsoup.connect(this.url).get();
+            Log.d(this.getClass().toString(), "title: " + doc.title());
+//            URL url = new URL(this.url);
+//            httpURLConnection = (HttpURLConnection) url.openConnection();
+//            httpURLConnection.setReadTimeout(READ_TIMEOUT);
+//            httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);//might throw SocketTimeoutException
+//            httpURLConnection.setRequestMethod(REQUEST_METHOD);//optional - GET is the default action
+//            httpURLConnection.setDoInput(true);
+//            httpURLConnection.connect();
+//            Log.d(ArticleDetailFetchCommand.class.toString(), "Response Code: " + httpURLConnection.getResponseCode() + httpURLConnection.getResponseMessage() + httpURLConnection.getHeaderField("Location"));
+//            //for the 303 See Other response
+//            if(httpURLConnection.getResponseCode() == 303 && httpURLConnection.getHeaderField("Location") != null){
+//                url = new URL(httpURLConnection.getHeaderField("Location"));
+//                httpURLConnection.disconnect();
+//                httpURLConnection = (HttpURLConnection) url.openConnection();
+//                httpURLConnection.connect();
+//            }
+//            inputStream = httpURLConnection.getInputStream();
+//            if(inputStream != null){
+//
 //                articles = new NYTNewsListParser().parse(inputStream);
 //                NewsFeedDBHelper.getInstance(MyApplication.getInstance().getApplicationContext())
 //                        .insertOrUpdateAll(articles);
@@ -53,7 +61,7 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
 ////                reader.read(buffer);
 ////                Log.d(ArticlesFetchCommand.class.toString(), "Input Stream: " + new String(buffer));
 //                Log.d(ArticlesFetchCommand.class.toString(), "Input Stream: " + html.toString());
-            }
+//            }
         }catch (Exception e){
             e.printStackTrace();
         }finally{

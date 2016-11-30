@@ -16,6 +16,7 @@ public final class Article implements SQLiteDBTable {
     private String title = "";      //6
     private String topic = "";      //7
     private String img = "";        //8
+    private String url = "";        //9 // url to fetch detail article
 
     public class Contract implements SQLiteDBTable.Contract{
         public static final String TABLE_NAME = "article";
@@ -27,6 +28,7 @@ public final class Article implements SQLiteDBTable {
         public static final String COLUMN_NAME_TITLE = "title";             // 6
         public static final String COLUMN_NAME_TOPIC = "topic";             // 7
         public static final String COLUMN_NAME_IMAGE = "img";               // 8
+        public static final String COLUMN_NAME_URL = "url";                 // 9
     }
 
     //default
@@ -45,6 +47,7 @@ public final class Article implements SQLiteDBTable {
         this.title = title;
         this.topic = topic;
         this.img = imgUrl;
+        this.url = imgUrl;
     }
 
     //cursor
@@ -58,6 +61,7 @@ public final class Article implements SQLiteDBTable {
         this.title = cursor.getString(6);
         this.topic = cursor.getString(7);
         this.img = cursor.getString(8);
+        this.url = cursor.getString(9);
     }
 
     public static Article getDefaultInstance(){
@@ -77,7 +81,8 @@ public final class Article implements SQLiteDBTable {
                 Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
                 Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                 Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + " )";
+                Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_URL + NewsFeedDBHelper.TEXT_TYPE + " )";
     }
 
     //Drop Table
@@ -102,6 +107,7 @@ public final class Article implements SQLiteDBTable {
         contentValues.put(Contract.COLUMN_NAME_TITLE, this.title);
         contentValues.put(Contract.COLUMN_NAME_TOPIC, this.topic);
         contentValues.put(Contract.COLUMN_NAME_IMAGE, this.img);
+        contentValues.put(Contract.COLUMN_NAME_URL, this.url);
         return contentValues;
     }
 
@@ -152,6 +158,10 @@ public final class Article implements SQLiteDBTable {
         this.img = img;
     }
 
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -178,6 +188,10 @@ public final class Article implements SQLiteDBTable {
 
     public String getImg() {
         return img;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     //endregion

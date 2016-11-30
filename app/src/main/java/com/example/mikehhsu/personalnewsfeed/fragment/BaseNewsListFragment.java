@@ -118,6 +118,7 @@ public class BaseNewsListFragment extends BaseFragment {
             Article article = rawNewsArticles.get(position);
             holder.titleView.setText(article.getTitle());
             holder.descView.setText(article.getDesc());
+            holder.detailUrl = rawNewsArticles.get(position).getUrl();
             new ImageUrlFetchCommand(getContext(), holder.headerImage).execute(article.getImg());
         }
 
