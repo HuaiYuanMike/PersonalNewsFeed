@@ -5,12 +5,14 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.example.mikehhsu.personalnewsfeed.MyApplication;
+import com.example.mikehhsu.personalnewsfeed.db.ArticleDetail;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -20,16 +22,32 @@ import java.net.URL;
  * Created by mikehhsu on 11/18/16.
  */
 public class ArticleDetailFetchCommand extends HttpGetCommand {
-    String articleDetailRaw = "";
+    ArticleDetail articleDetail = null;
 
     @Override
     protected Void doInBackground(String... urls) {
         try {
             this.url = urls[0];
-            Log.d(this.getClass().toString(), "Jsoup connect to remote!");
+            Log.d(this.getClass().toString(), "Jsoup connect to remote: " + this.url);
             Document doc = Jsoup.connect(this.url).get();
             Log.d(this.getClass().toString(), "title: " + doc.title());
-//            URL url = new URL(this.url);
+            Log.d(this.getClass().toString(), "content size: " + doc.getElementsByTag("p").size());
+
+            StringBuilder stringBuilder = new StringBuilder();
+            for(Element element : doc.getElementsByAttributeValue("class", "story-body-text story-content")){
+                stringBuilder.append(element.ownText() + "\n");
+//                Log.d(getClass().toString(), element.ownText());
+            }
+            Log.d(getClass().toString(), "Article Content: " + stringBuilder.toString());
+            articleDetail = new ArticleDetail();
+            articleDetail.setLink(this.url);
+            articleDetail.setTitle(doc.title());
+            articleDetail.setDetail(stringBuilder.toString());
+            articleDetail.setGuid(urls[1]);
+            articleDetail.setImg(doc.getElementsByTag("img").attr("src"));
+            // TODO: 12/1/16 set author
+            //// TODO: 12/1/16 do insertOrUpdate ArticleDetail table ?
+// URL url = new URL(this.url);
 //            httpURLConnection = (HttpURLConnection) url.openConnection();
 //            httpURLConnection.setReadTimeout(READ_TIMEOUT);
 //            httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);//might throw SocketTimeoutException
@@ -77,7 +95,7 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
     @Override
     protected void onPostExecute(Void aVoid) {
         //UI thread
-        if(articleDetailRaw.length() > 0) {
+        if(articleDetail != null) {
 //            LocalBroadcastManager.getInstance(MyApplication.getInstance().getApplicationContext()).sendBroadcast(new Intent(ArticlesLoader.getBroadcastString()));
         }
         super.onPostExecute(aVoid);

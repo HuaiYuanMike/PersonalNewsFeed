@@ -84,6 +84,7 @@ public class BaseNewsListFragment extends BaseFragment {
             ImageView headerImage;
             TextView descView;
             String detailUrl = "";
+            String guild = "";
             public ViewHolder(View itemView) {
                 super(itemView);
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
@@ -96,7 +97,7 @@ public class BaseNewsListFragment extends BaseFragment {
             public void onClick(View v) {
                 Log.d("mikelog", "clicked");
                 if(detailUrl.length() > 0) {
-                    new ArticleDetailFetchCommand().execute(this.detailUrl);
+                    new ArticleDetailFetchCommand().execute(this.detailUrl, this.guild);
                 }
             }
         }
@@ -119,6 +120,7 @@ public class BaseNewsListFragment extends BaseFragment {
             holder.titleView.setText(article.getTitle());
             holder.descView.setText(article.getDesc());
             holder.detailUrl = rawNewsArticles.get(position).getUrl();
+            holder.guild = rawNewsArticles.get(position).getGuid();
             new ImageUrlFetchCommand(getContext(), holder.headerImage).execute(article.getImg());
         }
 
