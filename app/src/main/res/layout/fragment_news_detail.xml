@@ -7,16 +7,20 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@android:color/holo_blue_dark"
         android:id="@+id/f_news_detail_rl_text">
         <TextView
             android:id="@+id/f_news_detail_text_title"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="Title TBA!"/>
         <TextView
             android:id="@+id/f_news_detail_text_article"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_below="@+id/f_news_detail_text_title"
+            android:layout_centerHorizontal="true"
             android:text="News Content Text TBA"/>
 
     </RelativeLayout>

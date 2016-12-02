@@ -99,7 +99,7 @@ public class BaseNewsListFragment extends BaseFragment {
                 if(detailUrl.length() > 0) {
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(getId(), NewsDetailFragment.getInstance(detailUrl,false), null)
+                            .add(R.id.fragment_container, NewsDetailFragment.getInstance(detailUrl,false), null)
                             .commit();
                 }
             }
