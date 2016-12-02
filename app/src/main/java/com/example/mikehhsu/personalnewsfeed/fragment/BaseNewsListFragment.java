@@ -95,9 +95,12 @@ public class BaseNewsListFragment extends BaseFragment {
 
             @Override
             public void onClick(View v) {
-                Log.d("mikelog", "clicked");
+                Log.d(getClass().toString(), "article item clicked!");
                 if(detailUrl.length() > 0) {
-                    new ArticleDetailFetchCommand().execute(this.detailUrl, this.guild);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(getId(), NewsDetailFragment.getInstance(detailUrl,false), null)
+                            .commit();
                 }
             }
         }

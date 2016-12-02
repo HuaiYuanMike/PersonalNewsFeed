@@ -3,8 +3,12 @@ package com.example.mikehhsu.personalnewsfeed.network;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.mikehhsu.personalnewsfeed.MyApplication;
+import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.db.ArticleDetail;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
@@ -13,6 +17,7 @@ import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -23,6 +28,12 @@ import java.net.URL;
  */
 public class ArticleDetailFetchCommand extends HttpGetCommand {
     ArticleDetail articleDetail = null;
+
+    ViewGroup articleDetailLayout = null;
+
+    public ArticleDetailFetchCommand(ViewGroup articleDetailLayout) {
+        this.articleDetailLayout = articleDetailLayout;
+    }
 
     @Override
     protected Void doInBackground(String... urls) {
@@ -97,6 +108,8 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
         //UI thread
         if(articleDetail != null) {
 //            LocalBroadcastManager.getInstance(MyApplication.getInstance().getApplicationContext()).sendBroadcast(new Intent(ArticlesLoader.getBroadcastString()));
+            ((TextView)articleDetailLayout.findViewById(R.id.f_news_detail_text_article)).setText(articleDetail.getDetail());
+            articleDetailLayout.requestLayout();
         }
         super.onPostExecute(aVoid);
     }
