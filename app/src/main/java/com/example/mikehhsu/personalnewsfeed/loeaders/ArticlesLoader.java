@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 
@@ -17,14 +18,22 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
 
     public final static int ARTICLES_LOADER_ID = 1000;
 
-    public ArticlesLoader(Context context){
+    MainActivity.NewsListType type = null;// the news article type that this loader needs to load
+
+    public ArticlesLoader(Context context, MainActivity.NewsListType type){
         super(context);
+        this.type = type;
     }
 
     @Override
     public void releaseResource(ArrayList<Article> data) {
         data.clear();
-        data = null;
+    }
+
+    @Override
+    protected void onReset() {
+        super.onReset();
+        this.type = null;
     }
 
     public static String getBroadcastString() {
@@ -38,7 +47,9 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
     @Override
     public ArrayList<Article> loadInBackground() {
         ArrayList<Article> articles = new ArrayList<>();
-        Cursor cursor = NewsFeedDBHelper.getInstance(getContext()).query("SELECT * FROM " + Article.Contract.TABLE_NAME, null);
+        String queryString = this.type == null ? "SELECT * FROM " + Article.Contract.TABLE_NAME :
+                "SELECT * FROM " + Article.Contract.TABLE_NAME + " WHERE type = \'" + this.type.name() + "\'"; // TODO: 12/4/16 add the type
+        Cursor cursor = NewsFeedDBHelper.getInstance(getContext()).query(queryString, null);
         cursor.moveToFirst();
         while(!cursor.isAfterLast())
         {

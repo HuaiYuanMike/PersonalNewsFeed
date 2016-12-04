@@ -142,27 +142,7 @@ public class MainPagerFragment extends BaseFragment{
             Log.e(this.getClass().toString(), "Network connection not available!");
         }
 
-        // and at the same time load the Articles from Local DB
-        getLoaderManager().initLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
-                new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
-                    @Override
-                    public Loader<ArrayList<Article>> onCreateLoader(int id, Bundle args) {
-                        return new ArticlesLoader(getContext());
-                    }
 
-                    @Override
-                    public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
-                        BaseNewsListFragment.setRawNewsArticles(data);
-                        if(newsListFragments.get(MainActivity.NewsListType.ALL.ordinal()).getAdapter() != null) {
-                            newsListFragments.get(MainActivity.NewsListType.ALL.ordinal()).getAdapter().notifyDataSetChanged();
-                        }
-                    }
-
-                    @Override
-                    public void onLoaderReset(Loader<ArrayList<Article>> loader) {
-
-                    }
-                });
 
     }
 

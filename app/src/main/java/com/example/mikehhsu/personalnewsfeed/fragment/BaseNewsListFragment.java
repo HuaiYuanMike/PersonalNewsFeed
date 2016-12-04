@@ -2,6 +2,7 @@ package com.example.mikehhsu.personalnewsfeed.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,7 +15,7 @@ import android.widget.TextView;
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
-import com.example.mikehhsu.personalnewsfeed.network.ArticleDetailFetchCommand;
+import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.network.ImageUrlFetchCommand;
 
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 public class BaseNewsListFragment extends BaseFragment {
 
     private static final String KEY_LIST_TYPE = "KEY_LIST_TYPE";
-    private static ArrayList<Article> rawNewsArticles = new ArrayList<>();
+    private ArrayList<Article> articles = new ArrayList<>();
 
     private MainActivity.NewsListType newsListType = null;
     private RecyclerView recyclerView;
@@ -65,6 +66,26 @@ public class BaseNewsListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
 
+        // and at the same time load the Articles from Local DB
+        getLoaderManager().initLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
+                    @Override
+                    public Loader<ArrayList<Article>> onCreateLoader(int id, Bundle args) {
+                        return new ArticlesLoader(getContext(), newsListType);
+                    }
+
+                    @Override
+                    public void onLoadFinished(Loader<ArrayList<Article>> loader, ArrayList<Article> data) {
+                        articles = data;
+                        adapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onLoaderReset(Loader<ArrayList<Article>> loader) {
+
+                    }
+                });
+
     }
 
     @Override
@@ -78,13 +99,14 @@ public class BaseNewsListFragment extends BaseFragment {
     //define the adapter for the recycler view
     public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder> {
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             //defines the viewholder
             TextView titleView;
             ImageView headerImage;
             TextView descView;
             String detailUrl = "";
             String guild = "";
+
             public ViewHolder(View itemView) {
                 super(itemView);
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
@@ -96,10 +118,11 @@ public class BaseNewsListFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 Log.d(getClass().toString(), "article item clicked!");
-                if(detailUrl.length() > 0) {
+                if (detailUrl.length() > 0) {
                     getFragmentManager()
                             .beginTransaction()
-                            .add(R.id.fragment_container, NewsDetailFragment.getInstance(detailUrl,false), null)
+                            .add(R.id.fragment_container, NewsDetailFragment.getInstance(detailUrl, false), null)
+                            .addToBackStack(null)
                             .commit();
                 }
             }
@@ -108,10 +131,10 @@ public class BaseNewsListFragment extends BaseFragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             //inflate and create new viewholder
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_news_card,parent,false);
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.item_news_card, parent, false);
             //set up margin, padding ...etc here
-            int margin = (int)getResources().getDimension(R.dimen.padding_btn_border);
-            ((RecyclerView.LayoutParams)view.getLayoutParams()).setMargins(margin, margin, margin, margin);
+            int margin = (int) getResources().getDimension(R.dimen.padding_btn_border);
+            ((RecyclerView.LayoutParams) view.getLayoutParams()).setMargins(margin, margin, margin, margin);
             ViewHolder viewHolder = new ViewHolder(view);
             return viewHolder;
         }
@@ -119,29 +142,20 @@ public class BaseNewsListFragment extends BaseFragment {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             //update data of each item to the viewholder
-            Article article = rawNewsArticles.get(position);
+            Article article = articles.get(position);
             holder.titleView.setText(article.getTitle());
             holder.descView.setText(article.getDesc());
-            holder.detailUrl = rawNewsArticles.get(position).getUrl();
-            holder.guild = rawNewsArticles.get(position).getGuid();
+            holder.detailUrl = articles.get(position).getUrl();
+            holder.guild = articles.get(position).getGuid();
             new ImageUrlFetchCommand(getContext(), holder.headerImage).execute(article.getImg());
         }
 
         @Override
         public int getItemCount() {
-            return rawNewsArticles.size();
+            return articles.size();
         }
     }
     //endregion
-
-
-    public static ArrayList<Article> getRawNewsArticles() {
-        return rawNewsArticles;
-    }
-
-    public static void setRawNewsArticles(ArrayList<Article> rawNewsArticles) {
-        BaseNewsListFragment.rawNewsArticles = rawNewsArticles;
-    }
 
     public NewsListRecyclerAdapter getAdapter() {
         return adapter;

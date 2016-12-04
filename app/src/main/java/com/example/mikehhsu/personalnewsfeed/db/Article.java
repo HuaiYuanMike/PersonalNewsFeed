@@ -3,6 +3,8 @@ package com.example.mikehhsu.personalnewsfeed.db;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
+
 /**
  * Created by mikehhsu on 9/23/16.
  */
@@ -17,6 +19,7 @@ public final class Article implements SQLiteDBTable {
     private String topic = "";      //7
     private String img = "";        //8
     private String url = "";        //9 // url to fetch detail article
+    private String type = MainActivity.NewsListType.UNREAD.name();        //10 //type of the article to the user eq. unread, saved...etc
 
     public class Contract implements SQLiteDBTable.Contract{
         public static final String TABLE_NAME = "article";
@@ -29,6 +32,7 @@ public final class Article implements SQLiteDBTable {
         public static final String COLUMN_NAME_TOPIC = "topic";             // 7
         public static final String COLUMN_NAME_IMAGE = "img";               // 8
         public static final String COLUMN_NAME_URL = "url";                 // 9
+        public static final String COLUMN_NAME_TYPE = "type";                 // 9
     }
 
     //default
@@ -62,6 +66,7 @@ public final class Article implements SQLiteDBTable {
         this.topic = cursor.getString(7);
         this.img = cursor.getString(8);
         this.url = cursor.getString(9);
+        this.url = cursor.getString(10);
     }
 
     public static Article getDefaultInstance(){
@@ -82,7 +87,8 @@ public final class Article implements SQLiteDBTable {
                 Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                 Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
                 Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_URL + NewsFeedDBHelper.TEXT_TYPE + " )";
+                Contract.COLUMN_NAME_URL + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                Contract.COLUMN_NAME_TYPE + NewsFeedDBHelper.TEXT_TYPE + " )";
     }
 
     //Drop Table
@@ -108,6 +114,7 @@ public final class Article implements SQLiteDBTable {
         contentValues.put(Contract.COLUMN_NAME_TOPIC, this.topic);
         contentValues.put(Contract.COLUMN_NAME_IMAGE, this.img);
         contentValues.put(Contract.COLUMN_NAME_URL, this.url);
+        contentValues.put(Contract.COLUMN_NAME_TYPE, this.type);
         return contentValues;
     }
 
@@ -162,6 +169,10 @@ public final class Article implements SQLiteDBTable {
         this.url = url;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getAuthor() {
         return author;
     }
@@ -192,6 +203,10 @@ public final class Article implements SQLiteDBTable {
 
     public String getUrl() {
         return url;
+    }
+
+    public String getType() {
+        return type;
     }
 
     //endregion
