@@ -2,11 +2,16 @@ package com.example.mikehhsu.personalnewsfeed.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.Loader;
+import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -99,7 +104,7 @@ public class BaseNewsListFragment extends BaseFragment {
     //define the adapter for the recycler view
     public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder> {
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
             //defines the viewholder
             TextView titleView;
             ImageView headerImage;
@@ -107,13 +112,25 @@ public class BaseNewsListFragment extends BaseFragment {
             String detailUrl = "";
             String guild = "";
 
+            Integer i = new Integer(5);
+            GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(getContext(), new CardItemSimpleGestureListener());
+
             public ViewHolder(View itemView) {
                 super(itemView);
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
                 headerImage = (ImageView) itemView.findViewById(R.id.item_news_header_img);
                 descView = (TextView) itemView.findViewById(R.id.item_news_desc);
                 itemView.setOnClickListener(this);
+                itemView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        gestureDetectorCompat.onTouchEvent(event);
+                        return true;
+                    }
+                });
             }
+
+
 
             @Override
             public void onClick(View v) {
@@ -123,7 +140,22 @@ public class BaseNewsListFragment extends BaseFragment {
                             .beginTransaction()
                             .add(R.id.fragment_container, NewsDetailFragment.getInstance(detailUrl, false), null)
                             .addToBackStack(null)
+                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .commit();
+                }
+            }
+
+            class CardItemSimpleGestureListener extends GestureDetector.SimpleOnGestureListener {
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    Log.d("mikelog", "Long Press!");
+                    super.onLongPress(e);
+                }
+
+                @Override
+                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                    Log.d("mikelog", "Fling!");
+                    return super.onFling(e1, e2, velocityX, velocityY);
                 }
             }
         }

@@ -47,10 +47,13 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
     @Override
     public ArrayList<Article> loadInBackground() {
         ArrayList<Article> articles = new ArrayList<>();
-        String queryString = this.type == null ? "SELECT * FROM " + Article.Contract.TABLE_NAME :
-                "SELECT * FROM " + Article.Contract.TABLE_NAME + " WHERE type = \'" + this.type.name() + "\'"; // TODO: 12/4/16 add the type
+
+
+        String queryString = (this.type == null) ? "SELECT * FROM " + Article.Contract.TABLE_NAME :
+                "SELECT * FROM " + Article.Contract.TABLE_NAME + " WHERE type = \'" + this.type.name() + "\'";
         Cursor cursor = NewsFeedDBHelper.getInstance(getContext()).query(queryString, null);
         cursor.moveToFirst();
+
         while(!cursor.isAfterLast())
         {
             articles.add(new Article(cursor));
