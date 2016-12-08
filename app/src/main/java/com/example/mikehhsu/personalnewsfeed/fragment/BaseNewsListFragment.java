@@ -9,8 +9,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.Slide;
 import android.util.Log;
+import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,7 +73,6 @@ public class BaseNewsListFragment extends BaseFragment {
         recyclerView = (RecyclerView) getView().findViewById(R.id.list_news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
-
         // and at the same time load the Articles from Local DB
         getLoaderManager().initLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
                 new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
@@ -99,7 +101,21 @@ public class BaseNewsListFragment extends BaseFragment {
         ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
     }
 
+    //region contextual menu
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater menuInflater = getActivity().getMenuInflater();
+        menuInflater.inflate(R.menu.news_list_item_floating, menu);
+    }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        Log.d("mikelog", "item clicled in floating menu: " + item.getTitle());
+        return super.onContextItemSelected(item);
+    }
+
+    //endregion
     //region NewsListRecyclerAdapter
     //define the adapter for the recycler view
     public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder> {
@@ -120,14 +136,15 @@ public class BaseNewsListFragment extends BaseFragment {
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
                 headerImage = (ImageView) itemView.findViewById(R.id.item_news_header_img);
                 descView = (TextView) itemView.findViewById(R.id.item_news_desc);
-                itemView.setOnClickListener(this);
-                itemView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        gestureDetectorCompat.onTouchEvent(event);
-                        return true;
-                    }
-                });
+//                itemView.setOnClickListener(this);
+//                itemView.setOnTouchListener(new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        gestureDetectorCompat.onTouchEvent(event);
+//                        return true;
+//                    }
+//                });
+                    itemView.setOnCreateContextMenuListener(BaseNewsListFragment.this);
             }
 
 
@@ -156,6 +173,11 @@ public class BaseNewsListFragment extends BaseFragment {
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                     Log.d("mikelog", "Fling!");
                     return super.onFling(e1, e2, velocityX, velocityY);
+                }
+
+                @Override
+                public boolean onDown(MotionEvent e) {
+                    return super.onDown(e);
                 }
             }
         }
