@@ -112,6 +112,16 @@ public class BaseNewsListFragment extends BaseFragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         Log.d("mikelog", "item clicled in floating menu: " + item.getTitle());
+        switch(item.getItemId()){
+            case R.id.menu_item_save:
+                Log.d("mikelog", "Save the article!");
+                return true;
+            case R.id.menu_item_remove:
+                Log.d("mikelog", "Remove the article from DB");
+                return true;
+            default:
+                break;
+        }
         return super.onContextItemSelected(item);
     }
 
@@ -120,7 +130,7 @@ public class BaseNewsListFragment extends BaseFragment {
     //define the adapter for the recycler view
     public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder> {
 
-        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+        public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener{
             //defines the viewholder
             TextView titleView;
             ImageView headerImage;
@@ -136,7 +146,7 @@ public class BaseNewsListFragment extends BaseFragment {
                 titleView = (TextView) itemView.findViewById(R.id.item_news_title);
                 headerImage = (ImageView) itemView.findViewById(R.id.item_news_header_img);
                 descView = (TextView) itemView.findViewById(R.id.item_news_desc);
-//                itemView.setOnClickListener(this);
+                itemView.setOnClickListener(this);
 //                itemView.setOnTouchListener(new View.OnTouchListener() {
 //                    @Override
 //                    public boolean onTouch(View v, MotionEvent event) {
@@ -144,7 +154,8 @@ public class BaseNewsListFragment extends BaseFragment {
 //                        return true;
 //                    }
 //                });
-                    itemView.setOnCreateContextMenuListener(BaseNewsListFragment.this);
+                    registerForContextMenu(itemView);
+                    itemView.setOnCreateContextMenuListener(this);
             }
 
 
@@ -179,6 +190,21 @@ public class BaseNewsListFragment extends BaseFragment {
                 public boolean onDown(MotionEvent e) {
                     return super.onDown(e);
                 }
+            }
+
+            @Override
+            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+                MenuInflater menuInflater = getActivity().getMenuInflater();
+                menuInflater.inflate(R.menu.news_list_item_floating, menu);
+                for(int i = 0 ; i < menu.size() ; i++){
+                    menu.getItem(i).setOnMenuItemClickListener(this);
+                }
+            }
+
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                Log.d("mikelog", "News item position in the layout: " + getPosition());
+                return true;
             }
         }
 
