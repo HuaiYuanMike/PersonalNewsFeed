@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--menu items-->
+    <item
+        type="id"
+        name="menu_item_save_fav" />
+    <item
+        type="id"
+        name="menu_item_save_unread" />
+</resources>

@@ -19,7 +19,7 @@ public final class Article implements SQLiteDBTable {
     private String topic = "";      //7
     private String img = "";        //8
     private String url = "";        //9 // url to fetch detail article
-    private String type = MainActivity.NewsListType.UNREAD.name();        //10 //type of the article to the user eq. unread, saved...etc
+    private String type = MainActivity.NewsListType.ALL.name();        //10 //type of the article to the user eq. unread, saved...etc
 
     public class Contract implements SQLiteDBTable.Contract{
         public static final String TABLE_NAME = "article";

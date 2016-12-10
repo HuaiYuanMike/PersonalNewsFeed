@@ -5,20 +5,15 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
-import com.example.mikehhsu.personalnewsfeed.db.Article;
-import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.network.ArticlesFetchCommand;
 
 import java.util.ArrayList;
@@ -119,10 +114,10 @@ public class MainPagerFragment extends BaseFragment{
                 viewPager.setCurrentItem(MainActivity.NewsListType.ALL.ordinal());
             }
         });
-        listBtns.get(MainActivity.NewsListType.SAVED.ordinal()).setOnClickListener(new View.OnClickListener() {
+        listBtns.get(MainActivity.NewsListType.FAVORITE.ordinal()).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewPager.setCurrentItem(MainActivity.NewsListType.SAVED.ordinal());
+                viewPager.setCurrentItem(MainActivity.NewsListType.FAVORITE.ordinal());
             }
         });
         listBtns.get(MainActivity.NewsListType.RECOMMEND.ordinal()).setOnClickListener(new View.OnClickListener() {

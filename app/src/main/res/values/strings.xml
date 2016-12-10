@@ -12,4 +12,9 @@
     <string name="item_news_card_brief_plc_holder_txt">
         To change CardView\'s elevation in a backward compatible way, use setCardElevation\(float\). CardView will use elevation API on Lollipop and before Lollipop, it will change the shadow size.
     </string>
+
+    <!--Dialog-->
+    <string name="article_action_unread">Save as Unread</string>
+    <string name="article_action_favorite">Save to Favorite</string>
+    <string name="article_action_remove">Remove from list</string>
 </resources>

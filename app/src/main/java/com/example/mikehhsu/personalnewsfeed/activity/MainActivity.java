@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity {
     public enum NewsListType {
         UNREAD("Unread"),
         ALL("All"),
-        SAVED("Saved"),
+        FAVORITE("Favorite"),
         RECOMMEND("Recom.");
         String title = "";
         NewsListType(String title){

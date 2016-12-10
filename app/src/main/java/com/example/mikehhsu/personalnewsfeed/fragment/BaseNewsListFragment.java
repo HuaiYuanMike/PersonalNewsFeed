@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
+import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.network.ImageUrlFetchCommand;
 
@@ -59,11 +61,6 @@ public class BaseNewsListFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         String name = getArguments().getString(KEY_LIST_TYPE, MainActivity.NewsListType.ALL.name());
         newsListType = MainActivity.NewsListType.valueOf(getArguments().getString(KEY_LIST_TYPE, MainActivity.NewsListType.ALL.name()));
-
-        // display temp. title
-//        Log.d("mikelog", "external storage path (root of the file): " + getContext().getExternalFilesDir(null));
-//        Log.d("mikelog", "external storage path (mode music): " + getContext().getExternalFilesDir(Environment.DIRECTORY_MUSIC));
-//        Log.d("mikelog", "external storage path (getFilesDir): " + getContext().getFilesDir());
     }
 
     @Override
@@ -101,31 +98,6 @@ public class BaseNewsListFragment extends BaseFragment {
         ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
     }
 
-    //region contextual menu
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater menuInflater = getActivity().getMenuInflater();
-        menuInflater.inflate(R.menu.news_list_item_floating, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        Log.d("mikelog", "item clicled in floating menu: " + item.getTitle());
-        switch(item.getItemId()){
-            case R.id.menu_item_save:
-                Log.d("mikelog", "Save the article!");
-                return true;
-            case R.id.menu_item_remove:
-                Log.d("mikelog", "Remove the article from DB");
-                return true;
-            default:
-                break;
-        }
-        return super.onContextItemSelected(item);
-    }
-
-    //endregion
     //region NewsListRecyclerAdapter
     //define the adapter for the recycler view
     public class NewsListRecyclerAdapter extends RecyclerView.Adapter<NewsListRecyclerAdapter.ViewHolder> {
@@ -138,7 +110,6 @@ public class BaseNewsListFragment extends BaseFragment {
             String detailUrl = "";
             String guild = "";
 
-            Integer i = new Integer(5);
             GestureDetectorCompat gestureDetectorCompat = new GestureDetectorCompat(getContext(), new CardItemSimpleGestureListener());
 
             public ViewHolder(View itemView) {
@@ -154,7 +125,7 @@ public class BaseNewsListFragment extends BaseFragment {
 //                        return true;
 //                    }
 //                });
-                    registerForContextMenu(itemView);
+//                    registerForContextMenu(itemView);
                     itemView.setOnCreateContextMenuListener(this);
             }
 
@@ -191,21 +162,49 @@ public class BaseNewsListFragment extends BaseFragment {
                     return super.onDown(e);
                 }
             }
-
+            //region View.OnCreateContextMenuListener
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 MenuInflater menuInflater = getActivity().getMenuInflater();
                 menuInflater.inflate(R.menu.news_list_item_floating, menu);
+                switch (newsListType){
+                    case ALL:
+                        menu.add(Menu.NONE, R.id.menu_item_save_unread, 0, getString(R.string.article_action_unread));
+                        break;
+                    case UNREAD:
+                        menu.add(Menu.NONE, R.id.menu_item_save_fav, 0, getString(R.string.article_action_favorite));
+                        break;
+                    default:
+                        break;
+                }
                 for(int i = 0 ; i < menu.size() ; i++){
                     menu.getItem(i).setOnMenuItemClickListener(this);
                 }
             }
-
+            //endregion
+            //region MenuItem.OnMenuItemClickListener
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Log.d("mikelog", "News item position in the layout: " + getPosition());
+                NewsFeedDBHelper dbHelper = NewsFeedDBHelper.getInstance(getContext());
+                int pos = getPosition();
+                Article article = articles.get(pos);
+                switch(item.getItemId()){
+                    case R.id.menu_item_save_unread:
+                        article.setType(MainActivity.NewsListType.UNREAD.name());
+                        Log.d("mikelog", "Save article to unread at position: " + pos);
+                        return true;
+                    case R.id.menu_item_remove:
+                        Log.d("mikelog", "Remove article from DB at position: " + pos);
+                        return true;
+                    case R.id.menu_item_save_fav:
+                        Log.d("mikelog", "Save article to favorite at position: " + pos);
+                        break;
+                    default:
+                        break;
+                }
                 return true;
             }
+            //endregion
         }
 
         @Override
