@@ -6,7 +6,7 @@ import android.database.Cursor;
 /**
  * Created by mikehhsu on 11/23/16.
  */
-public class ArticleDetail implements SQLiteDBTable {
+public class ArticleDetail implements SQLiteDBObject {
 
     public final static String SQL_CREATE_ENTRIES = "";
 
@@ -17,7 +17,7 @@ public class ArticleDetail implements SQLiteDBTable {
     private String link ="";   //5
     private String img ="";   //6
 
-    public class Contract implements SQLiteDBTable.Contract{
+    public class Contract implements SQLiteDBObject.Contract{
         public static final String TABLE_NAME = "article_detail";
         public static final String COLUMN_NAME_GUID = "guid";               // 1
         public static final String COLUMN_NAME_AUTHOR = "author";           // 2

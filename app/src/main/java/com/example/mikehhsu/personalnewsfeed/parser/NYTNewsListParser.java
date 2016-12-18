@@ -4,7 +4,7 @@ import android.util.Log;
 import android.util.Xml;
 
 import com.example.mikehhsu.personalnewsfeed.db.Article;
-import com.example.mikehhsu.personalnewsfeed.db.SQLiteDBTable;
+import com.example.mikehhsu.personalnewsfeed.db.SQLiteDBObject;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -18,8 +18,8 @@ import java.util.ArrayList;
  */
 public class NYTNewsListParser {//// TODO: 10/20/16 can probably use a abstract class for each parser
 //    private XmlPullParser parser;
-    public ArrayList<SQLiteDBTable> parse(InputStream in) {
-        ArrayList<SQLiteDBTable> articles = new ArrayList<>();
+    public ArrayList<SQLiteDBObject> parse(InputStream in) {
+        ArrayList<SQLiteDBObject> articles = new ArrayList<>();
         try{
             XmlPullParser xmlPullParser = Xml.newPullParser();
             xmlPullParser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);

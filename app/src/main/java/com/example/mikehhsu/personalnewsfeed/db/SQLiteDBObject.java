@@ -13,7 +13,7 @@ import java.io.BufferedReader;
 /**
  * Created by mikehhsu on 9/23/16.
  */
-public interface SQLiteDBTable {
+public interface SQLiteDBObject {
 
     interface Contract extends BaseColumns{}
 
@@ -26,6 +26,6 @@ public interface SQLiteDBTable {
     String getQueryAllCommand();
     //endregion
 
-    //// TODO: 9/23/16 more methonds to define our SQLiteDBTable interface behavior
+    //// TODO: 9/23/16 more methonds to define our SQLiteDBObject interface behavior
 
 }

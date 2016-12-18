@@ -197,11 +197,14 @@ public class BaseNewsListFragment extends BaseFragment {
                         Log.d("mikelog", "Remove article from DB at position: " + pos);
                         return true;
                     case R.id.menu_item_save_fav:
+                        article.setType(MainActivity.NewsListType.FAVORITE.name());
                         Log.d("mikelog", "Save article to favorite at position: " + pos);
                         break;
                     default:
                         break;
                 }
+                NewsFeedDBHelper.getInstance(getContext()).insertOrUpdate(article);
+                getLoaderManager().getLoader(ArticlesLoader.ARTICLES_LOADER_ID).onContentChanged();
                 return true;
             }
             //endregion

@@ -8,7 +8,7 @@ import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
 /**
  * Created by mikehhsu on 9/23/16.
  */
-public final class Article implements SQLiteDBTable {
+public final class Article implements SQLiteDBObject {
 
     private String guid = "";       //1
     private String author = "";     //2
@@ -21,7 +21,7 @@ public final class Article implements SQLiteDBTable {
     private String url = "";        //9 // url to fetch detail article
     private String type = MainActivity.NewsListType.ALL.name();        //10 //type of the article to the user eq. unread, saved...etc
 
-    public class Contract implements SQLiteDBTable.Contract{
+    public class Contract implements SQLiteDBObject.Contract{
         public static final String TABLE_NAME = "article";
         public static final String COLUMN_NAME_GUID = "guid";               // 1
         public static final String COLUMN_NAME_AUTHOR = "author";           // 2
@@ -73,7 +73,7 @@ public final class Article implements SQLiteDBTable {
         return new Article();
     }
 
-    //region SQLiteDBTable Interface
+    //region SQLiteDBObject Interface
     //Create Table
     @Override
     public String getSQLiteCreateTableCommand(){

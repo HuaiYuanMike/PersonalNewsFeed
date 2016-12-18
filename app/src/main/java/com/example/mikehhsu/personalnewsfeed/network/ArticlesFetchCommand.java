@@ -6,7 +6,7 @@ import android.util.Log;
 
 import com.example.mikehhsu.personalnewsfeed.MyApplication;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
-import com.example.mikehhsu.personalnewsfeed.db.SQLiteDBTable;
+import com.example.mikehhsu.personalnewsfeed.db.SQLiteDBObject;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.parser.NYTNewsListParser;
 
@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 // TODO: 10/10/16 The Result Generic Type should be modified based on the correct behavior
 public class ArticlesFetchCommand extends HttpGetCommand {
-    ArrayList<SQLiteDBTable> articles = null;
+    ArrayList<SQLiteDBObject> articles = null;
 
     @Override
     protected Void doInBackground(String... urls) {

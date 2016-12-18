@@ -53,22 +53,28 @@ public class NewsFeedDBHelper extends SQLiteOpenHelper {
 
     //CRUD
     //// TODO: 9/23/16 more CRUD methods
-    public long insertOrUpdate(SQLiteDBTable dbTableObj){
+    public long insertOrUpdate(SQLiteDBObject dbTableObj){
         return this.getWritableDatabase().
                 insertWithOnConflict(dbTableObj.getTableName(), null ,
                         dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
     }
 
-    public void insertOrUpdateAll(ArrayList<SQLiteDBTable> dbTableObjList){
+    public void insertOrUpdateAll(ArrayList<SQLiteDBObject> dbTableObjList){
         SQLiteDatabase db = this.getWritableDatabase();
-        for (SQLiteDBTable dbTableObj : dbTableObjList){
+        for (SQLiteDBObject dbTableObj : dbTableObjList){
             db.insertWithOnConflict(dbTableObj.getTableName(), null ,
                     dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
         }
         db.close();
     }
 
-    public Cursor queryAll(SQLiteDBTable dbTableObj){
+    public long insertOrUpdateRow(SQLiteDBObject dbTableObj){
+        return this.getWritableDatabase().
+                insertWithOnConflict(dbTableObj.getTableName(), null ,
+                        dbTableObj.getInsertContentValues(), SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
+    public Cursor queryAll(SQLiteDBObject dbTableObj){
         return this.getReadableDatabase().rawQuery(dbTableObj.getQueryAllCommand(), null);
     }
 
