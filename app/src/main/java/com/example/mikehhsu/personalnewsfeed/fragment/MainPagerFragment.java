@@ -172,7 +172,8 @@ public class MainPagerFragment extends BaseFragment{
         }
     }
 
-
-
-
+    @Override
+    public boolean addToBackStack() {
+        return false;
+    }
 }

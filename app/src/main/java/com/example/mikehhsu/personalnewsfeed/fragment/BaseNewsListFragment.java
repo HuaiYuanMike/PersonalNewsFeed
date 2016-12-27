@@ -71,7 +71,7 @@ public class BaseNewsListFragment extends BaseFragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
         // and at the same time load the Articles from Local DB
-        getLoaderManager().initLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
+        getLoaderManager().restartLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
                 new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
                     @Override
                     public Loader<ArrayList<Article>> onCreateLoader(int id, Bundle args) {
@@ -97,6 +97,7 @@ public class BaseNewsListFragment extends BaseFragment {
         super.onStart();
         ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
     }
+
 
     //region NewsListRecyclerAdapter
     //define the adapter for the recycler view
@@ -192,7 +193,7 @@ public class BaseNewsListFragment extends BaseFragment {
                     case R.id.menu_item_save_unread:
                         article.setType(MainActivity.NewsListType.UNREAD.name());
                         Log.d("mikelog", "Save article to unread at position: " + pos);
-                        return true;
+                        break;
                     case R.id.menu_item_remove:
                         Log.d("mikelog", "Remove article from DB at position: " + pos);
                         return true;

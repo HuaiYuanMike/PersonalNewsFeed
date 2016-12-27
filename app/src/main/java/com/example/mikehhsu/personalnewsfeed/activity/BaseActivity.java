@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.example.mikehhsu.personalnewsfeed.R;
+import com.example.mikehhsu.personalnewsfeed.fragment.BaseFragment;
+import com.example.mikehhsu.personalnewsfeed.fragment.MainPagerFragment;
 
 /**
  * Created by mikehhsu on 6/25/16.
@@ -18,7 +20,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         if(savedInstanceState == null) {
             android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             fragmentTransaction.add(R.id.fragment_container, getFragmentForActivity(), null); // no tag for now
-            fragmentTransaction.addToBackStack(null); // null for now
+            if(getFragmentForActivity().addToBackStack())
+            {
+                fragmentTransaction.addToBackStack(null); // null for now
+            }
             fragmentTransaction.commit();
         }
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_action);
@@ -36,6 +41,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         return R.layout.activity_base;
     }
 
-    abstract android.support.v4.app.Fragment getFragmentForActivity();
+    abstract BaseFragment getFragmentForActivity();
 
 }

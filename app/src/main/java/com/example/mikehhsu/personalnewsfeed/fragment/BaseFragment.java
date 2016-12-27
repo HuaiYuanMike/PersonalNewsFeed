@@ -20,4 +20,9 @@ public abstract class BaseFragment extends android.support.v4.app.Fragment{
     }
     abstract int getFragmentLayout();
 
+    public boolean addToBackStack()
+    {
+        return true;
+    }
+
 }

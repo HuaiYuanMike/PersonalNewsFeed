@@ -14,6 +14,7 @@ import android.util.Log;
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
+import com.example.mikehhsu.personalnewsfeed.fragment.BaseFragment;
 import com.example.mikehhsu.personalnewsfeed.fragment.MainPagerFragment;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.network.ArticlesFetchCommand;
@@ -31,7 +32,7 @@ public class MainActivity extends BaseActivity {
     }
 
     @Override
-    android.support.v4.app.Fragment getFragmentForActivity() {
+    BaseFragment getFragmentForActivity() {
         return new MainPagerFragment();
     }
 

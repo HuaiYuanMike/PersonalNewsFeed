@@ -13,7 +13,7 @@ import com.example.mikehhsu.personalnewsfeed.fragment.LoginFragment;
 public class LoginActivity extends BaseActivity {
 
     @Override
-    android.support.v4.app.Fragment getFragmentForActivity() {
+    BaseFragment getFragmentForActivity() {
         return LoginFragment.getInstance();
     }
 }
