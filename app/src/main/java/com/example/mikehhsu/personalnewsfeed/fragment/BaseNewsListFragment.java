@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.mikehhsu.personalnewsfeed.R;
 import com.example.mikehhsu.personalnewsfeed.activity.MainActivity;
+import com.example.mikehhsu.personalnewsfeed.activity.NewsDetailActivity;
 import com.example.mikehhsu.personalnewsfeed.db.Article;
 import com.example.mikehhsu.personalnewsfeed.db.NewsFeedDBHelper;
 import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
@@ -136,12 +137,13 @@ public class BaseNewsListFragment extends BaseFragment {
             public void onClick(View v) {
                 Log.d(getClass().toString(), "article item clicked!");
                 if (detailUrl.length() > 0) {
-                    getFragmentManager()
-                            .beginTransaction()
-                            .add(R.id.fragment_container, NewsDetailFragment.getInstance(detailUrl, false), null)
-                            .addToBackStack(null)
-                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                            .commit();
+//                    getFragmentManager()
+//                            .beginTransaction()
+//                            .add(R.id.fragment_container, NewsDetailFragment.getInstance(detailUrl, false), null)
+//                            .addToBackStack(null)
+//                            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                            .commit();
+                    NewsDetailActivity.StartMe(getContext(), detailUrl, false);
                 }
             }
 

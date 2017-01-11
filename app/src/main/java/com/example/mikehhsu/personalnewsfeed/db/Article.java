@@ -66,7 +66,7 @@ public final class Article implements SQLiteDBObject {
         this.topic = cursor.getString(7);
         this.img = cursor.getString(8);
         this.url = cursor.getString(9);
-        this.url = cursor.getString(10);
+        this.type = cursor.getString(10);
     }
 
     public static Article getDefaultInstance(){
