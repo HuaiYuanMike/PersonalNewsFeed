@@ -35,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+
     }
 
     int getLayout() {

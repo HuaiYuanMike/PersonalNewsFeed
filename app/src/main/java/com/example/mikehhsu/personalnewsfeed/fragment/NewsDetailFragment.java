@@ -50,4 +50,9 @@ public class NewsDetailFragment extends BaseFragment {
         new ArticleDetailFetchCommand((RelativeLayout)getView().findViewById(R.id.f_news_detail_rl_text)).execute(this.url, "1234");
 
     }
+
+    @Override
+    public boolean addToBackStack() {
+        return false;
+    }
 }

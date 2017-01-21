@@ -49,4 +49,5 @@ public class MainActivity extends BaseActivity {
             return this.title;
         }
     }
+
 }
