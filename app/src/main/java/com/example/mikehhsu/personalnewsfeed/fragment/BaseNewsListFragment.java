@@ -71,6 +71,19 @@ public class BaseNewsListFragment extends BaseFragment {
         recyclerView = (RecyclerView) getView().findViewById(R.id.list_news_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         recyclerView.setAdapter(adapter);
+
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         // and at the same time load the Articles from Local DB
         getLoaderManager().restartLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
                 new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
@@ -90,15 +103,7 @@ public class BaseNewsListFragment extends BaseFragment {
 
                     }
                 });
-
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ((TextView)getView().findViewById(R.id.title_temp)).setText(newsListType.getTitle());
-    }
-
 
     //region NewsListRecyclerAdapter
     //define the adapter for the recycler view

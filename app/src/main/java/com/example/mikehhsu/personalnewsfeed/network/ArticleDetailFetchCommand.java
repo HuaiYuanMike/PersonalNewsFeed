@@ -49,7 +49,6 @@ public class ArticleDetailFetchCommand extends HttpGetCommand {
                 stringBuilder.append(element.ownText() + "\n");
 //                Log.d(getClass().toString(), element.ownText());
             }
-            Log.d(getClass().toString(), "Article Content: " + stringBuilder.toString());
             articleDetail = new ArticleDetail();
             articleDetail.setLink(this.url);
             articleDetail.setTitle(doc.title());

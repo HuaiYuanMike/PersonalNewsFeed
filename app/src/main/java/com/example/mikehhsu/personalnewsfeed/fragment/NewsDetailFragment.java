@@ -46,9 +46,10 @@ public class NewsDetailFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.url = getArguments().getString(TEXT_URL);
-
-        new ArticleDetailFetchCommand((RelativeLayout)getView().findViewById(R.id.f_news_detail_rl_text)).execute(this.url, "1234");
-
+        if(savedInstanceState == null)
+        {
+            new ArticleDetailFetchCommand((RelativeLayout)getView().findViewById(R.id.f_news_detail_rl_text)).execute(this.url, "1234");
+        }
     }
 
     @Override

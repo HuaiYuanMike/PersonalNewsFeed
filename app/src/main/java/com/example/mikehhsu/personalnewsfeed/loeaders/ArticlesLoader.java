@@ -48,6 +48,7 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
     public ArrayList<Article> loadInBackground() {
         ArrayList<Article> articles = new ArrayList<>();
 
+        Log.d(this.toString(), "Load in background!");
 
         String queryString = (this.type == null) ? "SELECT * FROM " + Article.Contract.TABLE_NAME :
                 "SELECT * FROM " + Article.Contract.TABLE_NAME + " WHERE type = \'" + this.type.name() + "\'";
@@ -57,8 +58,6 @@ public class ArticlesLoader extends BaseAsyncTaskLoader<ArrayList<Article>> {
         while(!cursor.isAfterLast())
         {
             articles.add(new Article(cursor));
-            Log.d("mikelog", "loader article " + (articles.size() - 1) + ", time stamp - " + articles.get(articles.size() - 1).getTime_stamp()
-            + " , title - " + articles.get(articles.size() - 1).getTitle());
             cursor.moveToNext();
         }
         cursor.close();
