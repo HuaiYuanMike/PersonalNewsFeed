@@ -21,19 +21,17 @@ public final class Article implements SQLiteDBObject {
     private String url = "";        //9 // url to fetch detail article
     private String type = MainActivity.NewsListType.ALL.name();        //10 //type of the article to the user eq. unread, saved...etc
 
-    public class Contract implements SQLiteDBObject.Contract{
-        public static final String TABLE_NAME = "article";
-        public static final String COLUMN_NAME_GUID = "guid";               // 1
-        public static final String COLUMN_NAME_AUTHOR = "author";           // 2
-        public static final String COLUMN_NAME_DESC = "desc";               // 3
-        public static final String COLUMN_NAME_STATUS = "status";           // 4
-        public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";   // 5
-        public static final String COLUMN_NAME_TITLE = "title";             // 6
-        public static final String COLUMN_NAME_TOPIC = "topic";             // 7
-        public static final String COLUMN_NAME_IMAGE = "img";               // 8
-        public static final String COLUMN_NAME_URL = "url";                 // 9
-        public static final String COLUMN_NAME_TYPE = "type";                 // 9
-    }
+    public static final String TABLE_NAME = "article";
+    public static final String COLUMN_NAME_GUID = "guid";               // 1
+    public static final String COLUMN_NAME_AUTHOR = "author";           // 2
+    public static final String COLUMN_NAME_DESC = "desc";               // 3
+    public static final String COLUMN_NAME_STATUS = "status";           // 4
+    public static final String COLUMN_NAME_TIME_STAMP = "time_stamp";   // 5
+    public static final String COLUMN_NAME_TITLE = "title";             // 6
+    public static final String COLUMN_NAME_TOPIC = "topic";             // 7
+    public static final String COLUMN_NAME_IMAGE = "img";               // 8
+    public static final String COLUMN_NAME_URL = "url";                 // 9
+    public static final String COLUMN_NAME_TYPE = "type";                 // 9
 
     //default
     public Article(){
@@ -77,44 +75,44 @@ public final class Article implements SQLiteDBObject {
     //Create Table
     @Override
     public String getSQLiteCreateTableCommand(){
-        return "CREATE TABLE " + Contract.TABLE_NAME + " (" +
-                Contract._ID + " INTEGER," +
-                Contract.COLUMN_NAME_GUID + " TEXT PRIMARY KEY," +
-                Contract.COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_DESC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_URL + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
-                Contract.COLUMN_NAME_TYPE + NewsFeedDBHelper.TEXT_TYPE + " )";
+        return "CREATE TABLE " + TABLE_NAME + " (" +
+                _ID + " INTEGER," +
+                COLUMN_NAME_GUID + " TEXT PRIMARY KEY," +
+                COLUMN_NAME_AUTHOR + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_DESC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_STATUS + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_TIME_STAMP + NewsFeedDBHelper.INTEGER_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_TITLE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_TOPIC + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_IMAGE + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_URL + NewsFeedDBHelper.TEXT_TYPE + NewsFeedDBHelper.COMMA_SEP +
+                COLUMN_NAME_TYPE + NewsFeedDBHelper.TEXT_TYPE + " )";
     }
 
     //Drop Table
     @Override
     public String getSQliteDropTableCommand(){
-        return "DROP TABLE IF EXISTS " + Contract.TABLE_NAME;
+        return "DROP TABLE IF EXISTS " + TABLE_NAME;
     }
 
     @Override
     public String getTableName() {
-        return Contract.TABLE_NAME;
+        return TABLE_NAME;
     }
 
     @Override
     public ContentValues getInsertContentValues() {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(Contract.COLUMN_NAME_GUID, this.guid);
-        contentValues.put(Contract.COLUMN_NAME_AUTHOR, this.author);
-        contentValues.put(Contract.COLUMN_NAME_DESC, this.desc);
-        contentValues.put(Contract.COLUMN_NAME_STATUS, this.status);
-        contentValues.put(Contract.COLUMN_NAME_TIME_STAMP, this.time_stamp);
-        contentValues.put(Contract.COLUMN_NAME_TITLE, this.title);
-        contentValues.put(Contract.COLUMN_NAME_TOPIC, this.topic);
-        contentValues.put(Contract.COLUMN_NAME_IMAGE, this.img);
-        contentValues.put(Contract.COLUMN_NAME_URL, this.url);
-        contentValues.put(Contract.COLUMN_NAME_TYPE, this.type);
+        contentValues.put(COLUMN_NAME_GUID, this.guid);
+        contentValues.put(COLUMN_NAME_AUTHOR, this.author);
+        contentValues.put(COLUMN_NAME_DESC, this.desc);
+        contentValues.put(COLUMN_NAME_STATUS, this.status);
+        contentValues.put(COLUMN_NAME_TIME_STAMP, this.time_stamp);
+        contentValues.put(COLUMN_NAME_TITLE, this.title);
+        contentValues.put(COLUMN_NAME_TOPIC, this.topic);
+        contentValues.put(COLUMN_NAME_IMAGE, this.img);
+        contentValues.put(COLUMN_NAME_URL, this.url);
+        contentValues.put(COLUMN_NAME_TYPE, this.type);
         return contentValues;
     }
 

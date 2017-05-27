@@ -13,9 +13,7 @@ import java.io.BufferedReader;
 /**
  * Created by mikehhsu on 9/23/16.
  */
-public interface SQLiteDBObject {
-
-    interface Contract extends BaseColumns{}
+public interface SQLiteDBObject extends BaseColumns{
 
     String getTableName();
     ContentValues getInsertContentValues();
