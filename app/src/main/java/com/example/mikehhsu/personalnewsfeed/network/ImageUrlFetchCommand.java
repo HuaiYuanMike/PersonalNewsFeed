@@ -20,7 +20,7 @@ import java.net.URL;
 /**
  * Created by mikehhsu on 11/16/16.
  */
-public class ImageUrlFetchCommand extends AsyncTask<String, Void, Bitmap> {
+public class ImageUrlFetchCommand extends AsyncTask<String, String, Bitmap> {
 
     ImageView imageView = null;
     Context context = null;

@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">SimpleNotePad</string>
+    <string name="hint_insert_note">Click to Enter Note</string>
+</resources>

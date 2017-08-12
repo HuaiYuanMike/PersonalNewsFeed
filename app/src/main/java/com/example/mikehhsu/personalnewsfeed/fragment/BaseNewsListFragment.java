@@ -30,6 +30,7 @@ import com.example.mikehhsu.personalnewsfeed.loeaders.ArticlesLoader;
 import com.example.mikehhsu.personalnewsfeed.network.ImageUrlFetchCommand;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 /**
  * Created by mikehhsu on 8/2/16.
@@ -54,6 +55,7 @@ public class BaseNewsListFragment extends BaseFragment {
         Bundle bundle = new Bundle();
         bundle.putString(KEY_LIST_TYPE, listType.name());
         fragment.setArguments(bundle);
+
         return fragment;
     }
 
@@ -85,6 +87,7 @@ public class BaseNewsListFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         // and at the same time load the Articles from Local DB
+        //this is a simple change to test
         getLoaderManager().restartLoader(ArticlesLoader.ARTICLES_LOADER_ID, null,
                 new android.support.v4.app.LoaderManager.LoaderCallbacks<ArrayList<Article>>() {
                     @Override
