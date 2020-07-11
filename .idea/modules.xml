@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/PersonalNewsFeed.iml" filepath="$PROJECT_DIR$/PersonalNewsFeed.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/PersonalNewsFeed-app.iml" filepath="$PROJECT_DIR$/app/PersonalNewsFeed-app.iml" group="PersonalNewsFeed/app" />
+      <module fileurl="file://$PROJECT_DIR$/app/PersonalNewsFeed-app.iml" filepath="$PROJECT_DIR$/app/PersonalNewsFeed-app.iml" group="PersonalNewsFeed/app" />
       <module fileurl="file://$PROJECT_DIR$/StudioProjects-PersonalNewsFeed.iml" filepath="$PROJECT_DIR$/StudioProjects-PersonalNewsFeed.iml" group="PersonalNewsFeed" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
